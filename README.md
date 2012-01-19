@@ -24,24 +24,24 @@ Now available in your views is `$this->TwitterBootstrap`
 
 ## Methods
 
-#### input(array $options)
+### input(array $options)
 
-#### radio(array $options)
+### radio(array $options)
 
-#### button(string $value, array $options)
+### button(string $value, array $options)
 
-#### button_link(string $title, mixed $url, array $options, string $confirm)
+### button_link(string $title, mixed $url, array $options, string $confirm)
 
-#### button_form(string $title, mixed $url, array $options, string $confirm)
+### button_form(string $title, mixed $url, array $options, string $confirm)
 
-#### breadcrumbs(array $options)
+### breadcrumbs(array $options)
 
-#### add_crumb(string $title, mixed $url, array $options)
+### add_crumb(string $title, mixed $url, array $options)
 
-#### label(string $message, string $style, array $options)
+### label(string $message, string $style, array $options)
 
-#### flash(string $key, array $options)
+### flash(string $key, array $options)
 
-#### flashes(array $options)
+### flashes(array $options)
 
-#### block(string $message, array $links, array $options)
+### block(string $message, array $links, array $options)
