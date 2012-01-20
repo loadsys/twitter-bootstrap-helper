@@ -248,7 +248,11 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function flashes($options = array()) {
 		if (!isset($options["keys"]) || !$options["keys"]) {
-			$options["keys"] = array("info", "success", "error", "warning", "auth", "flash");
+			$options["keys"] = array("info", "success", "error", "warning", "flash");
+		}
+		if (isset($options["auth"]) && $options["auth"]) {
+			$options["keys"][] = "auth";
+			unset($options["auth"]);
 		}
 		$keys = $options["keys"];
 		unset($options["keys"]);
