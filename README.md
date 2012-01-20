@@ -84,7 +84,11 @@ Like the `TwitterBootstrap->button()`, the "disabled" option can be passed to ap
 
 ### TwitterBootstrapHelper::breadcrumbs(array $options)
 
+`TwitterBootstrap->breadcrumbs()` delegates to `HtmlHelper::getCrumbList()`. This method is new and needs more testing.
+
 ### TwitterBootstrapHelper::add_crumb(string $title, mixed $url, array $options)
+
+`TwitterBootstrap->add_crumb()` delegates to `HtmlHelper::addCrumb()`. This method is new and needs more testing.
 
 ### TwitterBootstrapHelper::label(string $message, string $style, array $options)
 
