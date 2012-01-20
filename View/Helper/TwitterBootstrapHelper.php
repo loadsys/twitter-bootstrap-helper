@@ -53,8 +53,8 @@ class TwitterBootstrapHelper extends AppHelper {
 			$prepend_text = $this->Html->tag($_tag, $options["prepend"], array("class" => "add-on"));
 			$options['input'] = $this->Html->tag("div", $options["input"].$prepend_text, array("class" => "input-append"));
 		}
-		$input = $this->Html->tag("div", $options['input'].$help_inline.$help_block, array("class" => "input");
-		return $this->Html->tag("div", $options['type'].$options['label'].$input, array("class" => "clearfix");
+		$input = $this->Html->tag("div", $options['input'].$help_inline.$help_block, array("class" => "input"));
+		return $this->Html->tag("div", $options['type'].$options['label'].$input, array("class" => "clearfix"));
 	}
 
 	/**

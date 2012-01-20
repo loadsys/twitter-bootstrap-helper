@@ -20,7 +20,15 @@ Then add helper to the $helpers array in a controller (AppController.php to use 
 
 	public $helpers = array("Html", "Form", "TwitterBootstrap.TwitterBootstrap");
 
-Now available in your views is `$this->TwitterBootstrap`
+Now available in your views is `$this->TwitterBootstrap`. If you'd like to make the helper name shorter, remember the alias functionality:
+
+	public $helpers = array(
+		"Html",
+		"Form",
+		"TB" => array(
+			"className" => "TwitterBootstrap.TwitterBootstrap"
+		)
+	);
 
 ## Methods
 
