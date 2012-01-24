@@ -24,7 +24,12 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function input($options = array()) {
+	public function input($field, $options = array()) {
+		if (is_array($field)) {
+			$options = $field;
+		} else {
+			$options["field"] = $field;
+		}
 		if (!isset($options['input']) || !isset($options['field'])) { return ''; }
 		$out = $help_inline = $help_block = '';
 		$options = array_merge(array('type' => '', 'help_inline' => '', 'help_block' => '', 'label' => ''), $options);
