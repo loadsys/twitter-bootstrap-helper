@@ -133,7 +133,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function button_form($title, $url, $options = array(), $confirm = false) {
 		$options = $this->button_options($options);
-		return $this->Html->postLink($title, $url, $options, $confirm);
+		return $this->Form->postLink($title, $url, $options, $confirm);
 	}
 
 	/**
