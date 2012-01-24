@@ -38,28 +38,61 @@ class TwitterBootstrapHelper extends AppHelper {
 		} else {
 			$options['label'] = $this->Form->label($options['field']);
 		}
-		if (!empty($options['help_inline'])) {
-			$help_inline = $this->Html->tag("span", $options['help_inline'], array("class" => "help-inline"));
-		}
-		if (!empty($options['help_block'])) {
-			$help_block = $this->Html->tag("span", $options['help_block'], array("class" => "help-block"));
-		}
+		list($help_inline, $help_block) = $this->_help_markup($options);
 		if ($this->Form->error($options['field'])) {
 			$options['type'] = 'error';
 			$help_block = $this->Html->tag("span", $this->Form->error($options['field']), array("class" => "help-block"));
 		}
-		if (isset($options['append'])) {
-			$_tag = (strpos("input", $options["append"]) !== false) ? "label" : "span";
-			$append_text = $this->Html->tag($_tag, $options["append"], array("class" => "add-on"));
-			$options['input'] = $this->Html->tag("div", $options["input"].$append_text, array("class" => "input-append"));
-		}
-		if (isset($options['prepend'])) {
-			$_tag = (strpos("input", $options["prepend"]) !== false) ? "label" : "span";
-			$prepend_text = $this->Html->tag($_tag, $options["prepend"], array("class" => "add-on"));
-			$options['input'] = $this->Html->tag("div", $options["input"].$prepend_text, array("class" => "input-append"));
-		}
+		$options["input"] = $this->_combine_input($options);
 		$input = $this->Html->tag("div", $options['input'].$help_inline.$help_block, array("class" => "input"));
 		return $this->Html->tag("div", $options['type'].$options['label'].$input, array("class" => "clearfix"));
+	}
+
+	/**
+	 * Takes the array of options and will apply the append or prepend bits
+	 * from the options and returns the input string. 
+	 * 
+	 * @param mixed $input 
+	 * @param string $type 
+	 * @access public
+	 * @return string
+	 */
+	public function _combine_input($options) {
+		$combine_markup = array("append" => "", "prepend" => "");
+		$input = $options["input"];
+		foreach (array_keys($combine_markup) as $combine) {
+			if (isset($options[$combine]) && !empty($options[$combine])) {
+				$_tag = (strpos("input", $options[$combine]) !== false) ? "label" : "span";
+				$content = $this->Html->tag($_tag, $options[$combine], array("class" => "add-on"));
+				$combine_markup[$combine] = $content;
+			}
+		}
+		if (!empty($combine_markup["append"])) {
+			$input = $this->Html->tag("div", $options[$combine].$content, array("class" => "input-append"));
+		}
+		if (empty($combine_markup["append"]) && !empty($combine_markup["prepend"])) {
+			$input = $this->Html->tag("div", $content.$options[$combine], array("class" => "input-prepend"));
+		}
+		return $input;
+	}
+
+	/**
+	 * Takes the options from the input method and returns an array of the
+	 * inline help and inline block content wrapped in the appropriate markup. 
+	 * 
+	 * @param mixed $options 
+	 * @access public
+	 * @return string
+	 */
+	public function _help_markup($options) {
+		$help_markup = array("help_inline" => "", "help_block" => "");
+		foreach (array_keys($help_markup) as $help) {
+			if (isset($options[$help]) && !empty($options[$help])) {
+				$help_class = str_replace("_", "-", $help);
+				$help_markup[$help] = $this->Html->tag("span", $options[$help], array("class" => $help_class)); 
+			}
+		}
+		return $help_markup;
 	}
 
 	/**
@@ -70,7 +103,12 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function radio($options = array()) {
+	public function radio($field, $options = array()) {
+		if (is_array($field)) {
+			$options["field"] = $field;
+		} else {
+			$options = $field;
+		}
 		if (!isset($options["options"]) || !isset($options["field"])) { return ""; }
 		$opt = $options["options"];
 		unset($options["options"]);
