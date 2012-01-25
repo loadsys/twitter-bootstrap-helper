@@ -240,10 +240,15 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function label($message = "", $style = "", $options = array()) {
 		$class = "label";
-		if (!empty($style)) {
+		$valid = array("success", "important", "warning", "notice");
+		if (!empty($style) && in_array($style, $valid)) {
 			$class .= " {$style}";
 		}
-		$options = Set::merge(array("class" => $class));
+		if (isset($options["class"]) && !empty($options["class"])) {
+			$options["class"] = $class . " " . $options["class"];
+		} else {
+			$options["class"] = $class;
+		}
 		return $this->Html->tag("span", $message, $options);
 	}
 	
