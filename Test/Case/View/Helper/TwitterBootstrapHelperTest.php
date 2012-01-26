@@ -65,6 +65,16 @@ class TestBootstrapHelper extends TwitterBootstrapHelper {
 		return $this->{$attribute};
 	}
 
+	/**
+	 * Overwriting method to return a static string.
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public function _flash_content($key) {
+		return "Flash content";
+	}
+
 }
 
 /**
@@ -110,7 +120,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 	
 	/**
-	 * Test the cases of the label method 
+	 * testValidLabels 
 	 * 
 	 * @access public
 	 * @return void
@@ -135,7 +145,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
-	 * Test the cases when the label method is passed invalid values for style 
+	 * testInvalidLabel 
 	 * 
 	 * @access public
 	 * @return void
@@ -152,16 +162,339 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
-	 * Test the cases of valid form buttons 
+	 * testValidButtonStyles 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function testValidButtons() {
+	public function testValidButtonStyles() {
 		$expected = $this->validButton;
-
+		// Default button
 		$default = $this->TwitterBootstrap->button("Submit");
 		$this->assertEquals(sprintf($expected, ""), $default);
+		// Primary button
+		$primary = $this->TwitterBootstrap->button("Submit", array("style" => "primary"));
+		$this->assertEquals(sprintf($expected, " primary"), $primary);
+		// Info button
+		$info = $this->TwitterBootstrap->button("Submit", array("style" => "info"));
+		$this->assertEquals(sprintf($expected, " info"), $info);
+		// Success button
+		$success = $this->TwitterBootstrap->button("Submit", array("style" => "success"));
+		$this->assertEquals(sprintf($expected, " success"), $success);
+		// Danger button
+		$danger = $this->TwitterBootstrap->button("Submit", array("style" => "danger"));
+		$this->assertEquals(sprintf($expected, " danger"), $danger);
+	}
+
+	/**
+	 * testValidButtonSizes 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testValidButtonSizes() {
+		$expected = $this->validButton;
+		// Small button
+		$small = $this->TwitterBootstrap->button("Submit", array("size" => "small"));
+		$this->assertEquals(sprintf($expected, " small"), $small);
+		// Large button
+		$large = $this->TwitterBootstrap->button("Submit", array("size" => "large"));
+		$this->assertEquals(sprintf($expected, " large"), $large);
+		// Mixed button
+		$mixed = $this->TwitterBootstrap->button(
+			"Submit",
+			array("style" => "primary", "size" => "small")
+		);
+		$this->assertEquals(sprintf($expected, " primary small"), $mixed);
+	}
+
+	public function testInvalidButtonStylesAndSizes() {
+		$expected = $this->validButton;
+		// Invalid size button
+		$invalid_size = $this->TwitterBootstrap->button("Submit", array("size" => "invalid"));
+		$this->assertEquals(sprintf($expected, ""), $invalid_size);
+		// Invalid style button
+		$invalid_style = $this->TwitterBootstrap->button("Submit", array("style" => "invalid"));
+		$this->assertEquals(sprintf($expected, ""), $invalid_style);
+	}
+
+	/**
+	 * testValidButtonLinks 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testValidButtonLinks() {
+		$expected = array(
+			'a' => array(
+				'href' => '/home',
+				'class' => 'preg:/btn/'
+			),
+			'preg:/Link Text/',
+			'/a'
+		);
+		$result = $this->TwitterBootstrap->button_link("Link Text", "/home");
+		$this->assertTags($result, $expected);
+
+		$result = $this->TwitterBootstrap->button_link(
+			"Link Text",
+			"/home",
+			array("size" => "large")
+		);
+		$expected["a"]["class"] = 'preg:/btn large/';
+		$this->assertTags($result, $expected);
+
+		$result = $this->TwitterBootstrap->button_link(
+			"Link Text",
+			"/home",
+			array("style" => "info")
+		);
+		$expected["a"]["class"] = 'preg:/btn info/';
+		$this->assertTags($result, $expected);
+
+		$result = $this->TwitterBootstrap->button_link(
+			"Link Text",
+			"/home",
+			array("style" => "info", "size" => "small")
+		);
+		$expected["a"]["class"] = 'preg:/btn info small/';
+		$this->assertTags($result, $expected);
+
+		$result = $this->TwitterBootstrap->button_link(
+			"Link Text",
+			"/home",
+			array("style" => "info", "size" => "small", "class" => "some-class")
+		);
+		$expected["a"]["class"] = 'preg:/some-class btn info small/';
+		$this->assertTags($result, $expected);
+	}
+
+	/**
+	 * testValidButtonForm 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testValidButtonForm() {
+		$expected = array(
+			'form' => array(
+				'method' => 'post', 'action', 'name' => 'preg:/post_\w+/',
+				'id' => 'preg:/post_\w+/', 'style' => 'display:none;'
+			),
+			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
+			'/form',
+			'a' => array(
+				'href' => '#', 'onclick' => 'preg:/document\.(.)+\.submit\(\); event\.returnValue = false; return false;/',
+				'class' => 'preg:/btn/'
+			),
+			'Link Text',
+			'/a'
+		);		
+
+		$result = $this->TwitterBootstrap->button_form("Link Text", "/home");
+		$this->assertTags($result, $expected);
+
+		$expected['a']['class'] = 'preg:/btn small/';
+		$result = $this->TwitterBootstrap->button_form(
+			"Link Text",
+			"/home",
+			array("size" => "small")
+		);
+		$this->assertTags($result, $expected);
+
+		$expected['a']['class'] = 'preg:/btn danger/';
+		$result = $this->TwitterBootstrap->button_form(
+			"Link Text",
+			"/home",
+			array("style" => "danger")
+		);
+		$this->assertTags($result, $expected);
+
+		$expected['a']['class'] = 'preg:/btn success large/';
+		$result = $this->TwitterBootstrap->button_form(
+			"Link Text",
+			"/home",
+			array("style" => "success", "size" => "large")
+		);
+		$this->assertTags($result, $expected);
+	}
+
+	/**
+	 * testValidFlash 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testValidFlash() {
+		$expected = array(
+			'div' => array('class' => 'alert-message warning'),
+			array('p' => true), 'Flash content', '/p',
+			'/div'
+		);
+
+		$result = $this->TwitterBootstrap->flash();
+		$this->assertTags($result, $expected);
+
+		$result = $this->TwitterBootstrap->flash("warning");
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message info'; 
+		$result = $this->TwitterBootstrap->flash("info");
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message success'; 
+		$result = $this->TwitterBootstrap->flash("success");
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message error'; 
+		$result = $this->TwitterBootstrap->flash("error");
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message error'; 
+		$result = $this->TwitterBootstrap->flash("auth");
+		$this->assertTags($result, $expected);
+	}
+
+	/**
+	 * testClosableFlash 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testClosableFlash() {
+		$expected = array(
+			'div' => array('class' => 'alert-message warning'),
+			'a' => array("href" => "#", "class" => "close"), 'preg:/x/', '/a',
+			array('p' => true), 'Flash content', '/p',
+			'/div'
+		);
+
+		$result = $this->TwitterBootstrap->flash("flash", array("closable" => true));
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message info'; 
+		$result = $this->TwitterBootstrap->flash("info", array("closable" => true));
+		$this->assertTags($result, $expected);
+	}
+
+	/**
+	 * testInvalidFlash 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInvalidFlash() {
+		$expected = array(
+			'div' => array('class' => 'alert-message warning invalid'),
+			array('p' => true), 'Flash content', '/p',
+			'/div'
+		);
+
+		$result = $this->TwitterBootstrap->flash("invalid");
+		$this->assertTags($result, $expected);
+	}
+
+	/**
+	 * testFlashes 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testFlashes() {
+		$keys = array("info", "success", "error", "warning", "warning");
+		$tmpl = '<div class="alert-message %s"><p>Flash content</p></div>';
+
+		$expected = '';
+		foreach ($keys as $key) {
+			$expected .= sprintf($tmpl, $key);
+		}
+		$flashes = $this->TwitterBootstrap->flashes();
+		$this->assertEquals($flashes, $expected);
+
+		$keys[] = "error";
+		$expected = '';
+		foreach ($keys as $key) {
+			$expected .= sprintf($tmpl, $key);
+		}
+		$flashes = $this->TwitterBootstrap->flashes(array("auth" => true));
+		$this->assertEquals($flashes, $expected);
+	}
+
+	/**
+	 * testValidBlock 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testValidBlock() {
+		$expected = array(
+			'div' => array('class' => 'alert-message block-message warning'),
+			'Message content',
+			'/div'
+		);
+
+		$result = $this->TwitterBootstrap->block("Message content");
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message block-message info';
+		$result = $this->TwitterBootstrap->block(
+			"Message content",
+			array("style" => "info")
+		);
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message block-message success';
+		$result = $this->TwitterBootstrap->block(
+			"Message content",
+			array("style" => "success")
+		);
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message block-message error';
+		$result = $this->TwitterBootstrap->block(
+			"Message content",
+			array("style" => "error")
+		);
+		$this->assertTags($result, $expected);
+
+		$expected['div']['class'] = 'alert-message block-message warning';
+		$result = $this->TwitterBootstrap->block(
+			"Message content",
+			array("style" => "warning")
+		);
+		$this->assertTags($result, $expected);
+	}
+
+	/**
+	 * testBlocksWithLinks 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testBlocksWithLinks() {
+		$expected = '<div class="alert-message block-message warning">Message content<div class="alert-actions"><a href="#" class="btn small">Link Text</a></div></div>';
+		$result = $this->TwitterBootstrap->block(
+			"Message content",
+			array("links" => array(
+				$this->TwitterBootstrap->button_link("Link Text", "#", array("size" => "small"))
+			))
+		);
+		$this->assertEquals($result, $expected);
+	}
+
+	/**
+	 * testClosableBlock 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testClosableBlock() {
+		$expected = '<div class="alert-message block-message info"><a href="#" class="close">x</a>Message content</div>';
+		$result = $this->TwitterBootstrap->block(
+			"Message content",
+			array("closable" => true, "style" => "info")
+		);
+		$this->assertEquals($result, $expected);
 	}
 
 }

@@ -41,7 +41,11 @@ class TwitterBootstrapHelper extends AppHelper {
 		list($help_inline, $help_block) = $this->_help_markup($options);
 		if ($this->Form->error($options['field'])) {
 			$options['type'] = 'error';
-			$help_block = $this->Html->tag("span", $this->Form->error($options['field']), array("class" => "help-block"));
+			$help_block = $this->Html->tag(
+				"span",
+				$this->Form->error($options['field']),
+				array("class" => "help-block")
+			);
 		}
 		$options["input"] = $this->_combine_input($options);
 		$input = $this->Html->tag("div", $options['input'].$help_inline.$help_block, array("class" => "input"));
@@ -188,12 +192,14 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function button_options($options) {
+		$valid_styles = array("danger", "info", "primary", "success");
+		$valid_sizes = array("small", "large");
 		$style = isset($options["style"]) ? $options["style"] : "";
 		$size = isset($options["size"]) ? $options["size"] : "";
 		$disabled = isset($options["disabled"]) ? (bool)$options["disabled"] : false;
 		$class = "btn";
-		if (!empty($style)) { $class .= " {$style}"; }
-		if (!empty($size)) { $class .= " {$size}"; }
+		if (!empty($style) && in_array($style, $valid_styles)) { $class .= " {$style}"; }
+		if (!empty($size) && in_array($size, $valid_sizes)) { $class .= " {$size}"; }
 		if ($disabled) { $class .= " disabled"; }
 		unset($options["style"]);
 		unset($options["size"]);
@@ -265,25 +271,25 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function flash($key = "flash", $options = array()) {
-		$content = $this->Session->flash($key, array("element" => null));
+		$content = $this->_flash_content($key);
 		if (empty($content)) { return ''; }
-		$tag = '<div class="alert-message%s">';
+		$close = "";
 		if (isset($options['closable']) && $options['closable']) {
-			$tag .= '<a href="#" class="close">';
+			$close = '<a href="#" class="close">x</a>';
 		}
-		$tag .= '<p>%s</p>';
-		if (isset($options['closable']) && $options['closable']) {
-			$tag .= '</a>';
-		}
-		$tag .= '</div>';
-		$type = " warning";
-		if (in_array($key, array("info", "success", "error"))) {
-			$type = " $key";
+		$type = "warning";
+		$types = array("info", "success", "error", "warning");
+		if (in_array($key, $types)) {
+			$type = $key;
 		}
 		if (strtolower($key) === "auth") {
-			$type = " error";
+			$type = "error";
 		}
-		return sprintf($tag, $type, $content);
+		if (!in_array($key, array_merge($types, array("auth", "flash")))) {
+			$type = "{$type} {$key}";
+		}
+		$class = "alert-message {$type}";
+		return $this->Html->tag('div', "{$close}<p>{$content}</p>", array("class" => $class));
 	}
 	
 	/**
@@ -310,6 +316,18 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		return $out;
 	}
+
+	/**
+	 * Returns the content from SessionHelper::flash() for the passed in
+	 * $key. 
+	 * 
+	 * @param string $key 
+	 * @access public
+	 * @return void
+	 */
+	public function _flash_content($key = "flash") {
+		return $this->Session->flash($key, array("element" => null));
+	}
 	
 	/**
 	 * Displays the alert-message.block-messgae div's from the twitter
@@ -321,12 +339,25 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function block($message = null, $links = array(), $options = array()) {
-		$defaults = array("type" => "warning", "closable" => false);
-		$options = array_merge($defaults, $options);
-		$wrap = '<div class="alert-message block-message '.$options["type"].'">%s%s</div>';
-		$links_wrap = '<div class="alert-actions">%s</div>';
-		return sprintf($wrap, $message, sprintf($links_wrap, implode("", $links)));
+	public function block($message = null, $options = array()) {
+		$style = "warning";
+		$valid = array("warning", "success", "info", "error");
+		if (isset($options["style"]) && in_array($options["style"], $valid)) {
+			$style = $options["style"];
+		}
+		$class = "alert-message block-message {$style}";
+		$close = $links = "";
+		if (isset($options["closable"]) && $options["closable"]) {
+			$close = '<a href="#" class="close">x</a>';
+		}
+		if (isset($options["links"]) && !empty($options["links"])) {
+			$links = $this->Html->tag(
+				"div",
+				implode("", $options["links"]),
+				array("class" => "alert-actions")
+			);
+		}
+		return $this->Html->tag("div", $close.$message.$links, array("class" => $class));
 	}
 
 }
