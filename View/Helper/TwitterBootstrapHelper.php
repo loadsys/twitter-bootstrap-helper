@@ -30,9 +30,22 @@ class TwitterBootstrapHelper extends AppHelper {
 		} else {
 			$options["field"] = $field;
 		}
-		if (!isset($options['input']) || !isset($options['field'])) { return ''; }
+		if (!isset($options['field'])) { return ''; }
 		$out = $help_inline = $help_block = '';
-		$options = array_merge(array('type' => '', 'help_inline' => '', 'help_block' => '', 'label' => ''), $options);
+		$defaults = array(
+			'type' => '',
+			'help_inline' => '',
+			'help_block' => '',
+			'label' => ''
+		);
+		$options = array_merge($defaults, $options);
+		$model = $this->Form->defaultModel;
+		if (strpos(".", $options["field"]) !== false) {
+			$split = explode(".", $options["field"]);
+			$model = $split[0];
+		} else {
+			$options["field"] = "{$model}.{$options["field"]}";
+		}
 		if (!empty($options['label'])) {
 			$options['label'] = $this->Form->label($options['field'], $options['label']);
 		} else {
@@ -48,8 +61,16 @@ class TwitterBootstrapHelper extends AppHelper {
 			);
 		}
 		$options["input"] = $this->_combine_input($options);
-		$input = $this->Html->tag("div", $options['input'].$help_inline.$help_block, array("class" => "input"));
-		return $this->Html->tag("div", $options['type'].$options['label'].$input, array("class" => "clearfix"));
+		$input = $this->Html->tag(
+			"div",
+			$options['input'].$help_inline.$help_block,
+			array("class" => "input")
+		);
+		return $this->Html->tag(
+			"div",
+			$options['type'].$options['label'].$input,
+			array("class" => "clearfix")
+		);
 	}
 
 	/**
@@ -63,7 +84,13 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function _combine_input($options) {
 		$combine_markup = array("append" => "", "prepend" => "");
-		$input = $options["input"];
+		if (isset($options["input"])) {
+			$input = $options["input"];
+		} else {
+			$input = $this->Form->input($options["field"], array(
+				"div" => false, "label" => false
+			));
+		}
 		foreach (array_keys($combine_markup) as $combine) {
 			if (isset($options[$combine]) && !empty($options[$combine])) {
 				$_tag = (strpos("input", $options[$combine]) !== false) ? "label" : "span";
@@ -93,10 +120,14 @@ class TwitterBootstrapHelper extends AppHelper {
 		foreach (array_keys($help_markup) as $help) {
 			if (isset($options[$help]) && !empty($options[$help])) {
 				$help_class = str_replace("_", "-", $help);
-				$help_markup[$help] = $this->Html->tag("span", $options[$help], array("class" => $help_class)); 
+				$help_markup[$help] = $this->Html->tag(
+					"span",
+					$options[$help],
+					array("class" => $help_class)
+				); 
 			}
 		}
-		return $help_markup;
+		return array_values($help_markup);
 	}
 
 	/**

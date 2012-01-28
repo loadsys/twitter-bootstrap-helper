@@ -38,6 +38,48 @@ class TheBootstrapTestController extends Controller {
 	public $uses = null;
 }
 
+class Contact extends CakeTestModel {
+
+/**
+ * primaryKey property
+ *
+ * @var string 'id'
+ */
+	public $primaryKey = 'id';
+
+/**
+ * useTable property
+ *
+ * @var bool false
+ */
+	public $useTable = false;
+
+/**
+ * name property
+ *
+ * @var string 'Contact'
+ */
+	public $name = 'Contact';
+	
+/**
+ * Default schema
+ *
+ * @var array
+ */
+	protected $_schema = array(
+		'id' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'),
+		'name' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
+		'email' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
+		'phone' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
+		'password' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
+		'published' => array('type' => 'date', 'null' => true, 'default' => null, 'length' => null),
+		'created' => array('type' => 'date', 'null' => '1', 'default' => '', 'length' => ''),
+		'updated' => array('type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null),
+		'age' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => null)
+	);
+
+}
+
 class TestBootstrapHelper extends TwitterBootstrapHelper {
 /**
  * expose a method as public
@@ -102,9 +144,20 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->View = $this->getMock('View', array('addScript'), array(new TheBootstrapTestController()));
+		$this->Form = new FormHelper($this->View);
+		$this->Form->Html = new HtmlHelper($this->View);
+		$this->Form->request = new CakeRequest('contacts/add', false);
+		$this->Form->request->here = '/contacts/add';
+		$this->Form->request['action'] = 'add';
+		$this->Form->request->webroot = '';
+		$this->Form->request->base = '';		
+
 		$this->TwitterBootstrap = new TestBootstrapHelper($this->View);
+		$this->TwitterBootstrap->Form = $this->Form;
 		$this->TwitterBootstrap->request = new CakeRequest(null, false);
 		$this->TwitterBootstrap->request->webroot = '';
+
+		ClassRegistry::addObject('Contact', new Contact());		
 
 		Configure::write('Asset.timestamp', false);
 	}
@@ -495,6 +548,84 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			array("closable" => true, "style" => "info")
 		);
 		$this->assertEquals($result, $expected);
+	}
+
+	/**
+	 * testInputWithOnlyField 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithOnlyField() {
+		$expected = array(
+			array('div' => array("class" => "clearfix")),
+			"label" => array("for" => "ContactName"), "Name", "/label",
+			array("div" => array("class" => "input")),
+			"input" => array(
+				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+			),
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name");
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
+	 * testInputWithOnlyFieldAndInput 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithOnlyFieldAndInput() {
+		$expected = array(
+			array('div' => array("class" => "clearfix")),
+			"label" => array("for" => "ContactName"), "Name", "/label",
+			array("div" => array("class" => "input")),
+			"input" => array(
+				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+			),
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array(
+			"input" => $this->Form->text("name")
+		));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input(array(
+			"field" => "name",
+			"input" => $this->Form->text("name")
+		));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
+	 * testInputWithDefinedLabel 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithDefinedLabel() {
+		$expected = array(
+			array("div" => array("class" => "clearfix")),
+			"label" => array("for" => "ContactName"), "Contact Name", "/label",
+			array("div" => array("class" => "input")),
+			"input" => array(
+				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+			),
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array("label" => "Contact Name"));
+		$this->Form->end();
+		//$this->assertTags($input, $expected);
 	}
 
 }
