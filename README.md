@@ -3,8 +3,8 @@
 ## Requirements
 
 * [CakePHP 2.0](https://github.com/cakephp/cakephp)
-* [Twitter Bootstrap CSS](https://twitter.github.com/bootstrap)
-* *Optional* [Twitter Bootstrap JS](https://twitter.github.com/bootstrap/javascript.html)
+* [Twitter Bootstrap CSS](http://twitter.github.com/bootstrap/)
+* *Optional* [Twitter Bootstrap JS](http://twitter.github.com/bootstrap/javascript.html)
 
 ## Installation
 
