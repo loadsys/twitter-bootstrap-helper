@@ -288,6 +288,35 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		return $this->Html->tag("span", $message, $options);
 	}
+
+	/**
+	 * Renders alert markup and takes a style and closable option 
+	 * 
+	 * @param mixed $content 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	public function alert($content, $options = array()) {
+		$close = "";
+		if (isset($options['closable']) && $options['closable']) {
+			$close = '<a href="#" class="close">x</a>';
+		}
+		$style = isset($options["style"]) ? $options["style"] : "warning";
+		$types = array("info", "success", "error", "warning");
+		if (strtolower($style) === "auth") {
+			$style = "error";
+		}
+		if (!in_array($style, array_merge($types, array("auth", "flash")))) {
+			$style = "warning {$style}";
+		}
+		$class = "alert-message {$style}";
+		return $this->Html->tag(
+			'div',
+			"{$close}<p>{$content}</p>",
+			array("class" => $class)
+		);
+	}
 	
 	/**
 	 * Captures the Session flash if it is set and renders it in the proper
@@ -304,23 +333,11 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function flash($key = "flash", $options = array()) {
 		$content = $this->_flash_content($key);
 		if (empty($content)) { return ''; }
-		$close = "";
+		$close = false;
 		if (isset($options['closable']) && $options['closable']) {
-			$close = '<a href="#" class="close">x</a>';
+			$close = true;
 		}
-		$type = "warning";
-		$types = array("info", "success", "error", "warning");
-		if (in_array($key, $types)) {
-			$type = $key;
-		}
-		if (strtolower($key) === "auth") {
-			$type = "error";
-		}
-		if (!in_array($key, array_merge($types, array("auth", "flash")))) {
-			$type = "{$type} {$key}";
-		}
-		$class = "alert-message {$type}";
-		return $this->Html->tag('div', "{$close}<p>{$content}</p>", array("class" => $class));
+		return $this->alert($content, array("style" => $key, "closable" => $close));
 	}
 	
 	/**
