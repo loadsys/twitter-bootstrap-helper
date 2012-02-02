@@ -144,18 +144,19 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->View = $this->getMock('View', array('addScript'), array(new TheBootstrapTestController()));
-		$this->Form = new FormHelper($this->View);
+
+		$this->TwitterBootstrap = new TestBootstrapHelper($this->View);
+		$this->TwitterBootstrap->Form = new FormHelper($this->View);
+		$this->TwitterBootstrap->request = new CakeRequest(null, false);
+		$this->TwitterBootstrap->request->webroot = '';
+
+		$this->Form = &$this->TwitterBootstrap->Form;
 		$this->Form->Html = new HtmlHelper($this->View);
 		$this->Form->request = new CakeRequest('contacts/add', false);
 		$this->Form->request->here = '/contacts/add';
 		$this->Form->request['action'] = 'add';
 		$this->Form->request->webroot = '';
 		$this->Form->request->base = '';		
-
-		$this->TwitterBootstrap = new TestBootstrapHelper($this->View);
-		$this->TwitterBootstrap->Form = $this->Form;
-		$this->TwitterBootstrap->request = new CakeRequest(null, false);
-		$this->TwitterBootstrap->request->webroot = '';
 
 		ClassRegistry::addObject('Contact', new Contact());		
 
@@ -386,6 +387,9 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		);
 
 		$result = $this->TwitterBootstrap->flash();
+		$this->assertTags($result, $expected);
+
+		$result = $this->TwitterBootstrap->flash("flash");
 		$this->assertTags($result, $expected);
 
 		$result = $this->TwitterBootstrap->flash("warning");
@@ -625,7 +629,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$this->Form->create("Contact");
 		$input = $this->TwitterBootstrap->input("name", array("label" => "Contact Name"));
 		$this->Form->end();
-		//$this->assertTags($input, $expected);
+		$this->assertTags($input, $expected);
 	}
 
 }

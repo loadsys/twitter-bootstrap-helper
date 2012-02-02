@@ -304,6 +304,9 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		$style = isset($options["style"]) ? $options["style"] : "warning";
 		$types = array("info", "success", "error", "warning");
+		if ($style === "flash") {
+			$style = "warning";
+		}
 		if (strtolower($style) === "auth") {
 			$style = "error";
 		}
