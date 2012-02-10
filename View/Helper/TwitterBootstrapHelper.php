@@ -46,7 +46,9 @@ class TwitterBootstrapHelper extends AppHelper {
 		} else {
 			$options["field"] = "{$model}.{$options["field"]}";
 		}
-		if (!empty($options['label'])) {
+		if ($options['label'] === false) {
+			$options['label'] = '';
+		} else if (!empty($options['label'])) {
 			$options['label'] = $this->Form->label($options['field'], $options['label']);
 		} else {
 			$options['label'] = $this->Form->label($options['field']);
