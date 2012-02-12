@@ -36,7 +36,8 @@ class TwitterBootstrapHelper extends AppHelper {
 			'type' => '',
 			'help_inline' => '',
 			'help_block' => '',
-			'label' => ''
+			'label' => '',
+			'state' => false
 		);
 		$options = array_merge($defaults, $options);
 		$model = $this->Form->defaultModel;
@@ -49,9 +50,17 @@ class TwitterBootstrapHelper extends AppHelper {
 		if ($options['label'] === false) {
 			$options['label'] = '';
 		} else if (!empty($options['label'])) {
-			$options['label'] = $this->Form->label($options['field'], $options['label']);
+			$options['label'] = $this->Form->label(
+				$options['field'],
+				$options['label'],
+				"control-label"
+			);
 		} else {
-			$options['label'] = $this->Form->label($options['field']);
+			$options['label'] = $this->Form->label(
+				$options['field'],
+				null,
+				"control-label"
+			);
 		}
 		list($help_inline, $help_block) = $this->_help_markup($options);
 		if ($this->Form->error($options['field'])) {
@@ -66,12 +75,16 @@ class TwitterBootstrapHelper extends AppHelper {
 		$input = $this->Html->tag(
 			"div",
 			$options['input'].$help_inline.$help_block,
-			array("class" => "input")
+			array("class" => "controls")
 		);
+		$wrap_class = "control-group";
+		if ($options["state"] !== false) {
+			$wrap_class = "{$wrap_class} {$options["state"]}";
+		}
 		return $this->Html->tag(
 			"div",
 			$options['type'].$options['label'].$input,
-			array("class" => "clearfix")
+			array("class" => $wrap_class)
 		);
 	}
 
@@ -231,9 +244,11 @@ class TwitterBootstrapHelper extends AppHelper {
 		$size = isset($options["size"]) ? $options["size"] : "";
 		$disabled = isset($options["disabled"]) ? (bool)$options["disabled"] : false;
 		$class = "btn";
-		if (!empty($style) && in_array($style, $valid_styles)) { $class .= " {$style}"; }
+		if (!empty($style) && in_array($style, $valid_styles)) {
+			$class .= " btn-{$style}";
+		}
 		if (!empty($size) && in_array($size, $valid_sizes)) { $class .= " {$size}"; }
-		if ($disabled) { $class .= " disabled"; }
+		if ($disabled) { $class .= " btn-disabled"; }
 		unset($options["style"]);
 		unset($options["size"]);
 		unset($options["disabled"]);
@@ -281,7 +296,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		$class = "label";
 		$valid = array("success", "important", "warning", "notice");
 		if (!empty($style) && in_array($style, $valid)) {
-			$class .= " {$style}";
+			$class .= " label-{$style}";
 		}
 		if (isset($options["class"]) && !empty($options["class"])) {
 			$options["class"] = $class . " " . $options["class"];
@@ -289,6 +304,23 @@ class TwitterBootstrapHelper extends AppHelper {
 			$options["class"] = $class;
 		}
 		return $this->Html->tag("span", $message, $options);
+	}
+
+	/**
+	 * Takes the name of an icon and returns the i tag with the appropriately
+	 * named class. The second param will switch between black and white 
+	 * icon sets.
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function icon($name, $color = "black") {
+		$class = "icon-{$name}";
+		if ($color === "white") {
+			$class = "{$class} icon-white";
+		}
+		return $this->Html->tag("i", array("class" => $class));
 	}
 
 	/**
