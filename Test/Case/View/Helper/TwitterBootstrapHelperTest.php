@@ -194,8 +194,8 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$important = $this->TwitterBootstrap->label("Message", "important");
 		$this->assertEquals(sprintf($expected, " label-important"), $important);
 		// Blue label
-		$notice = $this->TwitterBootstrap->label("Message", "notice");
-		$this->assertEquals(sprintf($expected, " label-notice"), $notice);
+		$notice = $this->TwitterBootstrap->label("Message", "info");
+		$this->assertEquals(sprintf($expected, " label-info"), $notice);
 	}
 
 	/**
