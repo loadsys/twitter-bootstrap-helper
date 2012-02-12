@@ -235,6 +235,9 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		// Success button
 		$success = $this->TwitterBootstrap->button("Submit", array("style" => "success"));
 		$this->assertEquals(sprintf($expected, " btn-success"), $success);
+		// Warning button
+		$success = $this->TwitterBootstrap->button("Submit", array("style" => "warning"));
+		$this->assertEquals(sprintf($expected, " btn-warning"), $success);
 		// Danger button
 		$danger = $this->TwitterBootstrap->button("Submit", array("style" => "danger"));
 		$this->assertEquals(sprintf($expected, " btn-danger"), $danger);

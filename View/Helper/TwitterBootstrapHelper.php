@@ -238,7 +238,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function button_options($options) {
-		$valid_styles = array("danger", "info", "primary", "success");
+		$valid_styles = array("danger", "info", "primary", "warning", "success");
 		$valid_sizes = array("small", "large");
 		$style = isset($options["style"]) ? $options["style"] : "";
 		$size = isset($options["size"]) ? $options["size"] : "";
