@@ -27,8 +27,8 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function basic_input($field, $options = array()) {
 		$options = $this->_parse_input_options($field, $options);
 		if (!isset($options["field"])) { return ""; }
-		$options["input"] = $this->_construct_input($options);
 		$options["label"] = $this->_construct_label($options);
+		$options["input"] = $this->_construct_input($options);
 		return $options["label"] . $options["input"];
 	}
 
@@ -59,6 +59,43 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
+	 * _construct_label 
+	 * 
+	 * @param mixed $options 
+	 * @access public
+	 * @return void
+	 */
+	public function _construct_label($options, $basic = true) {
+		if ($options["label"] === false) { return ""; }
+		if (in_array($options["type"], array("checkbox"))) {
+			$opt = $options;
+			$opt["type"] = "";
+			$input = $this->_construct_input($opt);
+			$options["label"] = $this->Form->label(
+				$options["field"],
+				$input . $options["label"],
+				"checkbox"
+			);
+		} else {
+			$class = (!$basic) ? "control-label" : null;
+			if (!empty($options["label"])) {
+				$options["label"] = $this->Form->label(
+					$options["field"],
+					$options["label"],
+					array("class" => $class)
+				);
+			} else {
+				$options["label"] = $this->Form->label(
+					$options["field"],
+					null,
+					array("class" => $class)
+				);
+			}
+		}
+		return $options["label"];
+	}
+
+	/**
 	 * _construct_input 
 	 * 
 	 * @param mixed $options 
@@ -66,6 +103,9 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return void
 	 */
 	public function _construct_input($options) {
+		if (in_array($options["type"], array("checkbox"))) {
+			$options["input"] = "";
+		} 
 		if (isset($options["input"])) { return $options["input"]; }
 		$options["input"] = $this->Form->input($options["field"], array(
 			"div" => false,
