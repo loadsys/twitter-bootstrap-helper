@@ -470,7 +470,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function alert($content, $options = array()) {
 		$close = "";
 		if (isset($options['closable']) && $options['closable']) {
-			$close = '<a href="#" class="close">x</a>';
+			$close = '<a class="close">&times;</a>';
 		}
 		$style = isset($options["style"]) ? $options["style"] : "warning";
 		$types = array("info", "success", "error", "warning");
@@ -481,12 +481,13 @@ class TwitterBootstrapHelper extends AppHelper {
 			$style = "error";
 		}
 		if (!in_array($style, array_merge($types, array("auth", "flash")))) {
-			$style = "warning {$style}";
+			$class = "alert {$style}";
+		} else {
+			$class = "alert alert-{$style}";
 		}
-		$class = "alert-message {$style}";
 		return $this->Html->tag(
 			'div',
-			"{$close}<p>{$content}</p>",
+			"{$close}{$content}",
 			array("class" => $class)
 		);
 	}
@@ -561,24 +562,20 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function block($message = null, $options = array()) {
-		$style = "warning";
-		$valid = array("warning", "success", "info", "error");
+		$style = "";
+		$valid = array("success", "info", "error");
 		if (isset($options["style"]) && in_array($options["style"], $valid)) {
-			$style = $options["style"];
+			$style = "alert-{$options["style"]}";
 		}
-		$class = "alert-message block-message {$style}";
-		$close = $links = "";
+		$class = "alert alert-block {$style}";
+		$close = $heading = "";
 		if (isset($options["closable"]) && $options["closable"]) {
-			$close = '<a href="#" class="close">x</a>';
+			$close = '<a class="close">&times;</a>';
 		}
-		if (isset($options["links"]) && !empty($options["links"])) {
-			$links = $this->Html->tag(
-				"div",
-				implode("", $options["links"]),
-				array("class" => "alert-actions")
-			);
+		if (isset($options["heading"]) && !empty($options["heading"])) {
+			$heading = $this->Html->tag("h4", $options["heading"], array("class" => "alert-heading"));
 		}
-		return $this->Html->tag("div", $close.$message.$links, array("class" => $class));
+		return $this->Html->tag("div", $close.$heading.$message, array("class" => $class));
 	}
 
 }
