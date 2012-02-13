@@ -15,6 +15,114 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 */
 	public $helpers = array("Form", "Html", "Session");
+
+	/**
+	 * basic_input 
+	 * 
+	 * @param mixed $field 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	public function basic_input($field, $options = array()) {
+		$options = $this->_parse_input_options($field, $options);
+		if (!isset($options["field"])) { return ""; }
+		$options["input"] = $this->_construct_input($options);
+		$options["label"] = $this->_construct_label($options);
+		return $options["label"] . $options["input"];
+	}
+
+	/**
+	 * _parse_input_options 
+	 * 
+	 * @param mixed $field 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	public function _parse_input_options($field, $options = array()) {
+		if (is_array($field)) {
+			$options = $field;
+		} else {
+			$options["field"] = $field;
+		}
+		$defaults = array(
+			"type" => "",
+			"help_inline" => "",
+			"help_block" => "",
+			"label" => "",
+			"append" => false,
+			"prepend" => false,
+			"state" => false
+		);
+		return array_merge($defaults, $options);
+	}
+
+	/**
+	 * _construct_input 
+	 * 
+	 * @param mixed $options 
+	 * @access public
+	 * @return void
+	 */
+	public function _construct_input($options) {
+		if (isset($options["input"])) { return $options["input"]; }
+		$options["input"] = $this->Form->input($options["field"], array(
+			"div" => false,
+			"label" => false
+		));
+		return $options["input"];
+	}
+
+	/**
+	 * _constuct_input_and_addon 
+	 * 
+	 * @param mixed $options 
+	 * @access public
+	 * @return void
+	 */
+	public function _constuct_input_and_addon($options) {
+		if (isset($options["input"])) { return $options["input"]; }
+		$options["input"] = $this->_construct_input($options);
+		$options["input"] = $this->_handle_input_addon($options);
+		return $options["input"];
+	}
+
+	/**
+	 * _handle_input_addon 
+	 * 
+	 * @param mixed $options 
+	 * @access public
+	 * @return void
+	 */
+	public function _handle_input_addon($options) {
+		$input = $options["input"];
+		if ($options["append"]) {
+			$input = $this->input_addon($options["append"], $input, "append");
+		} elseif ($options["prepend"]) {
+			$input = $this->input_addon($options["prepend"], $input, "prepend");
+		}
+		return $input;
+	}
+	
+	/**
+	 * input_addon 
+	 * 
+	 * @param mixed $content 
+	 * @param mixed $input 
+	 * @param string $type 
+	 * @access public
+	 * @return void
+	 */
+	public function input_addon($content, $input, $type = "append") {
+		$tag = (strpos("input", $content) !== false) ? "label" : "span";
+		$addon = $this->Html->tag($tag, $content, array("class" => "add-on"));
+		return $this->Html->tag(
+			"div",
+			$input . $content,
+			array("class" => "input-{$type}")
+		);
+	}
 	
 	/**
 	 * Takes an array of options to output markup that works with
@@ -25,21 +133,9 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function input($field, $options = array()) {
-		if (is_array($field)) {
-			$options = $field;
-		} else {
-			$options["field"] = $field;
-		}
+		$options = $this->_parse_input_options($field, $options);
 		if (!isset($options['field'])) { return ''; }
 		$out = $help_inline = $help_block = '';
-		$defaults = array(
-			'type' => '',
-			'help_inline' => '',
-			'help_block' => '',
-			'label' => '',
-			'state' => false
-		);
-		$options = array_merge($defaults, $options);
 		$model = $this->Form->defaultModel;
 		if (strpos(".", $options["field"]) !== false) {
 			$split = explode(".", $options["field"]);
