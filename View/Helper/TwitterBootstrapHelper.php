@@ -163,6 +163,27 @@ class TwitterBootstrapHelper extends AppHelper {
 			array("class" => "input-{$type}")
 		);
 	}
+
+	/**
+	 * search 
+	 * 
+	 * @param mixed $name 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	public function search($name = null, $options = array()) {
+		$class = "search-query";
+		if (!$name) {
+			$name = "search";
+		}
+		if (isset($options["class"])) {
+			$options["class"] .= " {$class}";
+		} else {
+			$options["class"] = $class;
+		}
+		return $this->Form->text($name, $options);
+	}
 	
 	/**
 	 * Takes an array of options to output markup that works with
