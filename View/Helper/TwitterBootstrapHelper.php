@@ -27,8 +27,8 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function basic_input($field, $options = array()) {
 		$options = $this->_parse_input_options($field, $options);
 		if (!isset($options["field"])) { return ""; }
-		$options["input"] = $this->_construct_input($options);
 		$options["label"] = $this->_construct_label($options);
+		$options["input"] = $this->_construct_input($options);
 		return $options["label"] . $options["input"];
 	}
 
@@ -59,6 +59,43 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
+	 * _construct_label 
+	 * 
+	 * @param mixed $options 
+	 * @access public
+	 * @return void
+	 */
+	public function _construct_label($options, $basic = true) {
+		if ($options["label"] === false) { return ""; }
+		if (in_array($options["type"], array("checkbox"))) {
+			$opt = $options;
+			$opt["type"] = "";
+			$input = $this->_construct_input($opt);
+			$options["label"] = $this->Form->label(
+				$options["field"],
+				$input . $options["label"],
+				"checkbox"
+			);
+		} else {
+			$class = (!$basic) ? "control-label" : null;
+			if (!empty($options["label"])) {
+				$options["label"] = $this->Form->label(
+					$options["field"],
+					$options["label"],
+					array("class" => $class)
+				);
+			} else {
+				$options["label"] = $this->Form->label(
+					$options["field"],
+					null,
+					array("class" => $class)
+				);
+			}
+		}
+		return $options["label"];
+	}
+
+	/**
 	 * _construct_input 
 	 * 
 	 * @param mixed $options 
@@ -66,6 +103,9 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return void
 	 */
 	public function _construct_input($options) {
+		if (in_array($options["type"], array("checkbox"))) {
+			$options["input"] = "";
+		} 
 		if (isset($options["input"])) { return $options["input"]; }
 		$options["input"] = $this->Form->input($options["field"], array(
 			"div" => false,
@@ -122,6 +162,27 @@ class TwitterBootstrapHelper extends AppHelper {
 			$input . $content,
 			array("class" => "input-{$type}")
 		);
+	}
+
+	/**
+	 * search 
+	 * 
+	 * @param mixed $name 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	public function search($name = null, $options = array()) {
+		$class = "search-query";
+		if (!$name) {
+			$name = "search";
+		}
+		if (isset($options["class"])) {
+			$options["class"] .= " {$class}";
+		} else {
+			$options["class"] = $class;
+		}
+		return $this->Form->text($name, $options);
 	}
 	
 	/**
@@ -430,7 +491,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function alert($content, $options = array()) {
 		$close = "";
 		if (isset($options['closable']) && $options['closable']) {
-			$close = '<a href="#" class="close">x</a>';
+			$close = '<a class="close">&times;</a>';
 		}
 		$style = isset($options["style"]) ? $options["style"] : "warning";
 		$types = array("info", "success", "error", "warning");
@@ -441,12 +502,13 @@ class TwitterBootstrapHelper extends AppHelper {
 			$style = "error";
 		}
 		if (!in_array($style, array_merge($types, array("auth", "flash")))) {
-			$style = "warning {$style}";
+			$class = "alert {$style}";
+		} else {
+			$class = "alert alert-{$style}";
 		}
-		$class = "alert-message {$style}";
 		return $this->Html->tag(
 			'div',
-			"{$close}<p>{$content}</p>",
+			"{$close}{$content}",
 			array("class" => $class)
 		);
 	}
@@ -521,24 +583,20 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function block($message = null, $options = array()) {
-		$style = "warning";
-		$valid = array("warning", "success", "info", "error");
+		$style = "";
+		$valid = array("success", "info", "error");
 		if (isset($options["style"]) && in_array($options["style"], $valid)) {
-			$style = $options["style"];
+			$style = "alert-{$options["style"]}";
 		}
-		$class = "alert-message block-message {$style}";
-		$close = $links = "";
+		$class = "alert alert-block {$style}";
+		$close = $heading = "";
 		if (isset($options["closable"]) && $options["closable"]) {
-			$close = '<a href="#" class="close">x</a>';
+			$close = '<a class="close">&times;</a>';
 		}
-		if (isset($options["links"]) && !empty($options["links"])) {
-			$links = $this->Html->tag(
-				"div",
-				implode("", $options["links"]),
-				array("class" => "alert-actions")
-			);
+		if (isset($options["heading"]) && !empty($options["heading"])) {
+			$heading = $this->Html->tag("h4", $options["heading"], array("class" => "alert-heading"));
 		}
-		return $this->Html->tag("div", $close.$message.$links, array("class" => $class));
+		return $this->Html->tag("div", $close.$heading.$message, array("class" => $class));
 	}
 
 }
