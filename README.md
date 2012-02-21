@@ -1,9 +1,11 @@
 # Twitter Bootstrap CakePHP Helper
 
+CakePHP helper for rendering bootstrap appropriate markup. Uses the Twitter Bootstrap 1.4.
+
 ## Requirements
 
 * [CakePHP 2.0](https://github.com/cakephp/cakephp)
-* [Twitter Bootstrap CSS](http://twitter.github.com/bootstrap/)
+* [Twitter Bootstrap CSS 1.4](http://twitter.github.com/bootstrap/)
 * *Optional* [Twitter Bootstrap JS](http://twitter.github.com/bootstrap/javascript.html)
 
 ## Installation
@@ -14,7 +16,7 @@ Check out the the repo in the plugins directory
 
 Add the plugin inclusion in the project bootstrap file
 
-	echo "CakePlugin::load("TwitterBootstrap");" >> Config/bootstrap.php
+	echo "CakePlugin::load('TwitterBootstrap');" >> Config/bootstrap.php
 
 Then add helper to the $helpers array in a controller (AppController.php to use in all views)
 
