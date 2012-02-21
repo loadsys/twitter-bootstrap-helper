@@ -5,7 +5,7 @@ CakePHP helper for rendering bootstrap appropriate markup. Uses the Twitter Boot
 ## Requirements
 
 * [CakePHP 2.0](https://github.com/cakephp/cakephp)
-* [Twitter Bootstrap CSS 1.4](http://twitter.github.com/bootstrap/)
+* [Twitter Bootstrap CSS 2.0](http://twitter.github.com/bootstrap/)
 * *Optional* [Twitter Bootstrap JS](http://twitter.github.com/bootstrap/javascript.html)
 
 ## Installation
