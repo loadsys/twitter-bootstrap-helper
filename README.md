@@ -16,7 +16,7 @@ Check out the the repo in the plugins directory
 
 Add the plugin inclusion in the project bootstrap file
 
-	echo "CakePlugin::load("TwitterBootstrap");" >> Config/bootstrap.php
+	echo "CakePlugin::load('TwitterBootstrap');" >> Config/bootstrap.php
 
 Then add helper to the $helpers array in a controller (AppController.php to use in all views)
 
