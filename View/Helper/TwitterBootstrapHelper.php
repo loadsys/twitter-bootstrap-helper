@@ -197,13 +197,13 @@ class TwitterBootstrapHelper extends AppHelper {
 		$options = $this->_parse_input_options($field, $options);
 		if (!isset($options['field'])) { return ''; }
 		$out = $help_inline = $help_block = '';
-		$model = $this->Form->defaultModel;
+		/*$model = $this->Form->defaultModel;
 		if (strpos(".", $options["field"]) !== false) {
 			$split = explode(".", $options["field"]);
 			$model = $split[0];
 		} else {
 			$options["field"] = "{$model}.{$options["field"]}";
-		}
+		}*/
 		if ($options['label'] === false) {
 			$options['label'] = '';
 		} else if (!empty($options['label'])) {
