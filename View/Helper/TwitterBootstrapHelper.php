@@ -259,9 +259,11 @@ class TwitterBootstrapHelper extends AppHelper {
 		if (isset($options["input"])) {
 			$input = $options["input"];
 		} else {
-			$input = $this->Form->input($options["field"], array(
-				"div" => false, "label" => false
-			));
+			$opt = array("div" => false, "label" => false, "error" => false);
+			if (isset($options["type"])) {
+				$opt["type"] = $options["type"];
+			}
+			$input = $this->Form->input($options["field"], $opt);
 		}
 		foreach (array_keys($combine_markup) as $combine) {
 			if (isset($options[$combine]) && !empty($options[$combine])) {
