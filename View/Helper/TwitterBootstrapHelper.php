@@ -55,7 +55,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		list($help_inline, $help_block) = $this->_help_markup($options);
 		if ($this->Form->error($options['field'])) {
-			$options['type'] = 'error';
+			$options['state'] = 'error';
 			$help_block = $this->Html->tag(
 				"span",
 				$this->Form->error($options['field']),
