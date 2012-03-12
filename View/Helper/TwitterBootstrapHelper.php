@@ -43,7 +43,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		if (strpos(".", $options["field"]) !== false) {
 			$split = explode(".", $options["field"]);
 			$model = $split[0];
-		} else {
+		} elseif (!empty($model)) {
 			$options["field"] = "{$model}.{$options["field"]}";
 		}
 		if ($options['label'] === false) {
