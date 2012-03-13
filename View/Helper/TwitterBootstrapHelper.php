@@ -43,7 +43,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		if (strpos(".", $options["field"]) !== false) {
 			$split = explode(".", $options["field"]);
 			$model = $split[0];
-		} else {
+		} elseif (!empty($model)) {
 			$options["field"] = "{$model}.{$options["field"]}";
 		}
 		if ($options['label'] === false) {
@@ -55,7 +55,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		list($help_inline, $help_block) = $this->_help_markup($options);
 		if ($this->Form->error($options['field'])) {
-			$options['type'] = 'error';
+			$options['state'] = 'error';
 			$help_block = $this->Html->tag(
 				"span",
 				$this->Form->error($options['field']),
