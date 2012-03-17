@@ -314,24 +314,25 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function radio($field, $options = array()) {
 		if (is_array($field)) {
-			$options["field"] = $field;
-		} else {
 			$options = $field;
+		} else {
+			$options["field"] = $field;
 		}
 		if (!isset($options["options"]) || !isset($options["field"])) { return ""; }
 		$opt = $options["options"];
 		unset($options["options"]);
 		$inputs = "";
+		$hiddenField = (isset($options['hiddenField']) && $options['hiddenField']);
 		foreach ($opt as $key => $val) {
 			$input = $this->Form->radio(
 				$options["field"],
 				array($key => $val),
-				array("label" => false)
+				array("label" => false, 'hiddenField' => $hiddenField)
 			);
 			$id = array();
 			preg_match_all("/id=\"[a-zA-Z0-9_-]*\"/", $input, $id);
-			if (isset($id[0][1]) && !empty($id[0][1])) {
-				$id = $id[0][1];
+			if (!empty($id[0])) {
+				$id = end($id[0]);
 				$id = substr($id, 4);
 				$id = substr($id, 0, -1);
 				$input = $this->Html->tag("label", $input, array("for" => $id));
