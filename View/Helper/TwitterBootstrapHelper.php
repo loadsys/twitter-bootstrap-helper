@@ -335,11 +335,11 @@ class TwitterBootstrapHelper extends AppHelper {
 				$id = end($id[0]);
 				$id = substr($id, 4);
 				$id = substr($id, 0, -1);
-				$input = $this->Html->tag("label", $input, array("for" => $id));
+				$input = $this->Html->tag("label", $input, array("class" => "radio", "for" => $id));
 			}
-			$inputs .= $this->Html->tag("li", $input);
+			$inputs .= $input;
 		}
-		$options["input"] = $this->Html->tag("ul", $inputs, array("class" => "inputs-list"));
+		$options["input"] = $inputs;
 		return $this->input($options);
 	}
 
