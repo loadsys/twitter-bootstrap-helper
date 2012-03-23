@@ -454,7 +454,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function label($message = "", $style = "", $options = array()) {
 		$class = "label";
-		$valid = array("success", "important", "warning", "info");
+		$valid = array("success", "important", "warning", "info", "inverse");
 		if (!empty($style) && in_array($style, $valid)) {
 			$class .= " label-{$style}";
 		}

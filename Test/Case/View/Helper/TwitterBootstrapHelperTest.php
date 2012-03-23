@@ -196,6 +196,9 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		// Blue label
 		$notice = $this->TwitterBootstrap->label("Message", "info");
 		$this->assertEquals(sprintf($expected, " label-info"), $notice);
+		// Black label
+		$inverse = $this->TwitterBootstrap->label("Message", "inverse");
+		$this->assertEquals(sprintf($expected, " label-inverse"), $inverse);
 	}
 
 	/**
