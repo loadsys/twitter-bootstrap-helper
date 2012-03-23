@@ -465,6 +465,30 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		return $this->Html->tag("span", $message, $options);
 	}
+	
+	/**
+	 * Creates a Bootstrap badge with $num and optional $style. Any options
+	 * that could get passed to the HtmlHelper::tag can be passed in the 3rd
+	 * param
+	 * 
+	 * @param  integer $num
+	 * @param  string  $style
+	 * @param  array   $options
+	 * @return string
+	 */
+	public function badge($num = 0, $style = "", $options = array()) {
+		$class = "badge";
+		$valid = array("success", "warning", "error", "info", "inverse");
+		if (!empty($style) && in_array($style, $valid)) {
+			$class .= " badge-{$style}";
+		}
+		if (isset($options["class"]) && !empty($options["class"])) {
+			$options["class"] = $class . " " . $options["class"];
+		} else {
+			$options["class"] = $class;
+		}
+		return $this->Html->tag("span", $num, $options);
+	}
 
 	/**
 	 * Takes the name of an icon and returns the i tag with the appropriately
