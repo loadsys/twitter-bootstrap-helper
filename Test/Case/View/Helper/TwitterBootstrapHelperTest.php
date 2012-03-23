@@ -355,6 +355,9 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		// Danger button
 		$danger = $this->TwitterBootstrap->button("Submit", array("style" => "danger"));
 		$this->assertEquals(sprintf($expected, " btn-danger"), $danger);
+		// Inverse button
+		$danger = $this->TwitterBootstrap->button("Submit", array("style" => "inverse"));
+		$this->assertEquals(sprintf($expected, " btn-inverse"), $danger);
 	}
 
 	/**
