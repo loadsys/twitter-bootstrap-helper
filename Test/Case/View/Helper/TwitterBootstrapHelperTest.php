@@ -23,49 +23,49 @@ if (!defined('FULL_BASE_URL')) {
  */
 class TheBootstrapTestController extends Controller {
 
-/**
- * name property
- *
- * @var string 'TheTest'
- */
+	/**
+	 * name property
+	 *
+	 * @var string 'TheTest'
+	 */
 	public $name = 'TheTest';
 
-/**
- * uses property
- *
- * @var mixed null
- */
+	/**
+	 * uses property
+	 *
+	 * @var mixed null
+	 */
 	public $uses = null;
 }
 
 class Contact extends CakeTestModel {
 
-/**
- * primaryKey property
- *
- * @var string 'id'
- */
+	/**
+	 * primaryKey property
+	 *
+	 * @var string 'id'
+	 */
 	public $primaryKey = 'id';
 
-/**
- * useTable property
- *
- * @var bool false
- */
+	/**
+	 * useTable property
+	 *
+	 * @var bool false
+	 */
 	public $useTable = false;
 
-/**
- * name property
- *
- * @var string 'Contact'
- */
+	/**
+	 * name property
+	 *
+	 * @var string 'Contact'
+	 */
 	public $name = 'Contact';
 	
-/**
- * Default schema
- *
- * @var array
- */
+	/**
+	 * Default schema
+	 *
+	 * @var array
+	 */
 	protected $_schema = array(
 		'id' => array('type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'),
 		'name' => array('type' => 'string', 'null' => '', 'default' => '', 'length' => '255'),
@@ -81,25 +81,25 @@ class Contact extends CakeTestModel {
 }
 
 class TestBootstrapHelper extends TwitterBootstrapHelper {
-/**
- * expose a method as public
- *
- * @param string $options
- * @param string $exclude
- * @param string $insertBefore
- * @param string $insertAfter
- * @return void
- */
+	/**
+	 * expose a method as public
+	 *
+	 * @param string $options
+	 * @param string $exclude
+	 * @param string $insertBefore
+	 * @param string $insertAfter
+	 * @return void
+	 */
 	public function parseAttributes($options, $exclude = null, $insertBefore = ' ', $insertAfter = null) {
 		return $this->_parseAttributes($options, $exclude, $insertBefore, $insertAfter);
 	}
 
-/**
- * Get a protected attribute value
- *
- * @param string $attribute
- * @return mixed
- */
+	/**
+	 * Get a protected attribute value
+	 *
+	 * @param string $attribute
+	 * @return mixed
+	 */
 	public function getAttribute($attribute) {
 		if (!isset($this->{$attribute})) {
 			return null;
@@ -126,21 +126,21 @@ class TestBootstrapHelper extends TwitterBootstrapHelper {
  */
 class TwitterBootstrapHelperTest extends CakeTestCase {
 
-/**
- * html property
- *
- * @var object
- */
+	/**
+	 * html property
+	 *
+	 * @var object
+	 */
 	public $Html = null;
 
 	public $validLabel = '<span class="label%s">Message</span>';
 
 	public $validButton = '<button type="submit" class="btn%s">Submit</button>';
 
-/**
- * setUp method
- *
- */
+	/**
+	 * setUp method
+	 *
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->View = $this->getMock('View', array('addScript'), array(new TheBootstrapTestController()));
@@ -163,11 +163,11 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		Configure::write('Asset.timestamp', false);
 	}
 
-/**
- * tearDown method
- *
- * @return void
- */
+	/**
+	 * tearDown method
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 		parent::tearDown();
 		unset($this->TwitterBootstrap, $this->View);
