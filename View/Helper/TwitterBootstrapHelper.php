@@ -518,7 +518,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function alert($content, $options = array()) {
 		$close = "";
 		if (isset($options['closable']) && $options['closable']) {
-			$close = '<a class="close">&times;</a>';
+			$close = '<a class="close" data-dismiss="alert">&times;</a>';
 		}
 		$style = isset($options["style"]) ? $options["style"] : "warning";
 		$types = array("info", "success", "error", "warning");
@@ -529,7 +529,7 @@ class TwitterBootstrapHelper extends AppHelper {
 			$style = "error";
 		}
 		if (!in_array($style, array_merge($types, array("auth", "flash")))) {
-			$class = "alert {$style}";
+			$class = "alert alert-warning {$style}";
 		} else {
 			$class = "alert alert-{$style}";
 		}
@@ -613,12 +613,12 @@ class TwitterBootstrapHelper extends AppHelper {
 		$style = "";
 		$valid = array("success", "info", "error");
 		if (isset($options["style"]) && in_array($options["style"], $valid)) {
-			$style = "alert-{$options["style"]}";
+			$style = " alert-{$options["style"]}";
 		}
-		$class = "alert alert-block {$style}";
+		$class = "alert alert-block{$style}";
 		$close = $heading = "";
 		if (isset($options["closable"]) && $options["closable"]) {
-			$close = '<a class="close">&times;</a>';
+			$close = '<a class="close" data-dismiss="alert">&times;</a>';
 		}
 		if (isset($options["heading"]) && !empty($options["heading"])) {
 			$heading = $this->Html->tag("h4", $options["heading"], array("class" => "alert-heading"));

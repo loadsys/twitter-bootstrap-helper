@@ -216,6 +216,50 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testValidBadge
+	 *
+	 * @access public 
+	 * @return void
+	 */
+	public function testValidBadge() {
+		$expected = array("span" => array("class" => "badge"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1);
+		$this->assertTags($badge, $expected);
+
+		$expected = array("span" => array("class" => "badge badge-success"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "success");
+		$this->assertTags($badge, $expected);
+
+		$expected = array("span" => array("class" => "badge badge-warning"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "warning");
+		$this->assertTags($badge, $expected);
+
+		$expected = array("span" => array("class" => "badge badge-error"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "error");
+		$this->assertTags($badge, $expected);
+
+		$expected = array("span" => array("class" => "badge badge-info"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "info");
+		$this->assertTags($badge, $expected);
+
+		$expected = array("span" => array("class" => "badge badge-inverse"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "inverse");
+		$this->assertTags($badge, $expected);
+	}
+
+	/**
+	 * testInvalidBadge
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInvalidBadge() {
+		$expected = array("span" => array("class" => "badge"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "invalid");
+		$this->assertTags($badge, $expected);
+	}
+
+	/**
 	 * testValidButtonStyles 
 	 * 
 	 * @access public
@@ -402,8 +446,8 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testValidFlash() {
 		$expected = array(
-			'div' => array('class' => 'alert-message warning'),
-			array('p' => true), 'Flash content', '/p',
+			'div' => array('class' => 'alert alert-warning'),
+			'Flash content',
 			'/div'
 		);
 
@@ -416,19 +460,19 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$result = $this->TwitterBootstrap->flash("warning");
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message info'; 
+		$expected['div']['class'] = 'alert alert-info'; 
 		$result = $this->TwitterBootstrap->flash("info");
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message success'; 
+		$expected['div']['class'] = 'alert alert-success'; 
 		$result = $this->TwitterBootstrap->flash("success");
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message error'; 
+		$expected['div']['class'] = 'alert alert-error'; 
 		$result = $this->TwitterBootstrap->flash("error");
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message error'; 
+		$expected['div']['class'] = 'alert alert-error'; 
 		$result = $this->TwitterBootstrap->flash("auth");
 		$this->assertTags($result, $expected);
 	}
@@ -441,16 +485,16 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testClosableFlash() {
 		$expected = array(
-			'div' => array('class' => 'alert-message warning'),
-			'a' => array("href" => "#", "class" => "close"), 'preg:/x/', '/a',
-			array('p' => true), 'Flash content', '/p',
+			'div' => array('class' => 'alert alert-warning'),
+			'a' => array("data-dismiss" => "alert", "class" => "close"), 'preg:/&times;/', '/a',
+			'Flash content',
 			'/div'
 		);
 
 		$result = $this->TwitterBootstrap->flash("flash", array("closable" => true));
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message info'; 
+		$expected['div']['class'] = 'alert alert-info'; 
 		$result = $this->TwitterBootstrap->flash("info", array("closable" => true));
 		$this->assertTags($result, $expected);
 	}
@@ -463,8 +507,8 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testInvalidFlash() {
 		$expected = array(
-			'div' => array('class' => 'alert-message warning invalid'),
-			array('p' => true), 'Flash content', '/p',
+			'div' => array('class' => 'alert alert-warning invalid'),
+			'Flash content',
 			'/div'
 		);
 
@@ -480,7 +524,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testFlashes() {
 		$keys = array("info", "success", "error", "warning", "warning");
-		$tmpl = '<div class="alert-message %s"><p>Flash content</p></div>';
+		$tmpl = '<div class="alert alert-%s">Flash content</div>';
 
 		$expected = '';
 		foreach ($keys as $key) {
@@ -506,7 +550,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testValidBlock() {
 		$expected = array(
-			'div' => array('class' => 'alert-message block-message warning'),
+			'div' => array('class' => 'alert alert-block'),
 			'Message content',
 			'/div'
 		);
@@ -514,50 +558,33 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$result = $this->TwitterBootstrap->block("Message content");
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message block-message info';
+		$expected['div']['class'] = 'alert alert-block alert-info';
 		$result = $this->TwitterBootstrap->block(
 			"Message content",
 			array("style" => "info")
 		);
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message block-message success';
+		$expected['div']['class'] = 'alert alert-block alert-success';
 		$result = $this->TwitterBootstrap->block(
 			"Message content",
 			array("style" => "success")
 		);
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message block-message error';
+		$expected['div']['class'] = 'alert alert-block alert-error';
 		$result = $this->TwitterBootstrap->block(
 			"Message content",
 			array("style" => "error")
 		);
 		$this->assertTags($result, $expected);
 
-		$expected['div']['class'] = 'alert-message block-message warning';
+		$expected['div']['class'] = 'alert alert-block';
 		$result = $this->TwitterBootstrap->block(
 			"Message content",
 			array("style" => "warning")
 		);
 		$this->assertTags($result, $expected);
-	}
-
-	/**
-	 * testBlocksWithLinks 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function testBlocksWithLinks() {
-		$expected = '<div class="alert-message block-message warning">Message content<div class="alert-actions"><a href="#" class="btn small">Link Text</a></div></div>';
-		$result = $this->TwitterBootstrap->block(
-			"Message content",
-			array("links" => array(
-				$this->TwitterBootstrap->button_link("Link Text", "#", array("size" => "small"))
-			))
-		);
-		$this->assertEquals($result, $expected);
 	}
 
 	/**
@@ -567,7 +594,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 * @return void
 	 */
 	public function testClosableBlock() {
-		$expected = '<div class="alert-message block-message info"><a href="#" class="close">x</a>Message content</div>';
+		$expected = '<div class="alert alert-block alert-info"><a class="close" data-dismiss="alert">&times;</a>Message content</div>';
 		$result = $this->TwitterBootstrap->block(
 			"Message content",
 			array("closable" => true, "style" => "info")
