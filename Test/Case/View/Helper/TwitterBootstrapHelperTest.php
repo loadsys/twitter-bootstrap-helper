@@ -263,6 +263,73 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testProgressBar
+	 *
+	 * @return void
+	 */
+	public function testProgressBar() {
+		$expected = array(
+			array("div" => array("class" => "progress")),
+			array("div" => array("class" => "bar", "style" => "width: 60%;")),
+			array("/div" => true),
+			array("/div" => true)
+		);
+		$progress = $this->TwitterBootstrap->progress(array("width" => 60));
+		$this->assertTags($progress, $expected);
+
+		$expected = array(
+			array("div" => array("class" => "progress progress-info progress-striped")),
+			array("div" => array("class" => "bar", "style" => "width: 60%;")),
+			array("/div" => true),
+			array("/div" => true)
+		);
+		$progress = $this->TwitterBootstrap->progress(array(
+			"width" => 60,
+			"style" => "info",
+			"striped" => true
+		));
+		$this->assertTags($progress, $expected);
+
+		$expected = array(
+			array("div" => array("class" => "progress progress-success progress-striped active")),
+			array("div" => array("class" => "bar", "style" => "width: 60%;")),
+			array("/div" => true),
+			array("/div" => true)
+		);
+		$progress = $this->TwitterBootstrap->progress(array(
+			"width" => 60,
+			"style" => "success",
+			"striped" => true,
+			"active" => true
+		));
+		$this->assertTags($progress, $expected);
+
+		$expected = array(
+			array("div" => array("class" => "progress progress-warning")),
+			array("div" => array("class" => "bar", "style" => "width: 60%;")),
+			array("/div" => true),
+			array("/div" => true)
+		);
+		$progress = $this->TwitterBootstrap->progress(array(
+			"width" => 60,
+			"style" => "warning"
+		));
+		$this->assertTags($progress, $expected);
+
+		$expected = array(
+			array("div" => array("class" => "progress progress-danger")),
+			array("div" => array("class" => "bar", "style" => "width: 60%;")),
+			array("/div" => true),
+			array("/div" => true)
+		);
+		$progress = $this->TwitterBootstrap->progress(array(
+			"width" => 60,
+			"style" => "danger"
+		));
+		$this->assertTags($progress, $expected);
+	}
+
+	/**
 	 * testValidButtonStyles 
 	 * 
 	 * @access public

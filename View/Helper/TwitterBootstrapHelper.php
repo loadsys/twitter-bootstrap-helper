@@ -508,6 +508,33 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
+	 * progress
+	 * 
+	 * @param  string $style
+	 * @param  array  $options
+	 * @return string
+	 */
+	public function progress($options = array()) {
+		$class = "progress";
+		$width = 0;
+		$valid = array("info", "success", "warning", "danger");
+		if (isset($options["style"]) && in_array($options["style"], $valid)) {
+			$class .= " progress-{$options["style"]}";
+		}
+		if (isset($options["striped"]) && $options["striped"]) {
+			$class .= " progress-striped";
+		}
+		if (isset($options["active"]) && $options["active"]) {
+			$class .= " active";
+		}
+		if (isset($options["width"]) && !empty($options["width"]) && is_int($options["width"])) {
+			$width = $options["width"];
+		}
+		$bar = $this->Html->tag("div", "", array("class" => "bar", "style" => "width: {$width}%;"));
+		return $this->Html->tag("div", $bar, array("class" => $class));
+	}
+
+	/**
 	 * Renders alert markup and takes a style and closable option 
 	 * 
 	 * @param mixed $content 
