@@ -566,7 +566,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			"label" => array("for" => "ContactName"), "Name", "/label",
 			array("div" => array("class" => "input")),
 			"input" => array(
-				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
 			),
 			"/div",
 			"/div"
@@ -621,7 +621,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			"label" => array("for" => "ContactName"), "Contact Name", "/label",
 			array("div" => array("class" => "input")),
 			"input" => array(
-				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
 			),
 			"/div",
 			"/div"
