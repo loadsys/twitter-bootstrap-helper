@@ -398,11 +398,10 @@ class TwitterBootstrapHelper extends AppHelper {
 				array(
 					"class" => $options["class"],
 					"escape" => false
-				),
-				false
+				)
 			);
 			$button .= $this->Html->link(
-				'<span class="caret">&nbsp;</span>',
+				'<span class="caret"></span>',
 				"#",
 				array(
 					"class" => $options["class"] . " dropdown-toggle",
@@ -412,7 +411,7 @@ class TwitterBootstrapHelper extends AppHelper {
 			);
 		} else {
 			$button = $this->Html->link(
-				$value . ' <span class="caret">&nbsp;</span>',
+				$value . ' <span class="caret"></span>',
 				isset($options["url"]) ? $options["url"] : "#",
 				array(
 					"class" => $options["class"] . " dropdown-toggle",
