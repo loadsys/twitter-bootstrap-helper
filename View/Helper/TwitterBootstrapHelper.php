@@ -466,7 +466,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function button_options($options) {
 		$valid_styles = array("danger", "info", "primary", "warning", "success", "inverse");
-		$valid_sizes = array("small", "large");
+		$valid_sizes = array("mini", "small", "large");
 		$style = isset($options["style"]) ? $options["style"] : "";
 		$size = isset($options["size"]) ? $options["size"] : "";
 		$disabled = isset($options["disabled"]) ? (bool)$options["disabled"] : false;
@@ -474,7 +474,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		if (!empty($style) && in_array($style, $valid_styles)) {
 			$class .= " btn-{$style}";
 		}
-		if (!empty($size) && in_array($size, $valid_sizes)) { $class .= " {$size}"; }
+		if (!empty($size) && in_array($size, $valid_sizes)) { $class .= " btn-{$size}"; }
 		if ($disabled) { $class .= " btn-disabled"; }
 		unset($options["style"]);
 		unset($options["size"]);

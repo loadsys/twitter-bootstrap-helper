@@ -368,18 +368,21 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testValidButtonSizes() {
 		$expected = $this->validButton;
+		// Mini button
+		$mini = $this->TwitterBootstrap->button("Submit", array("size" => "mini"));
+		$this->assertEquals(sprintf($expected, " btn-mini"), $mini);
 		// Small button
 		$small = $this->TwitterBootstrap->button("Submit", array("size" => "small"));
-		$this->assertEquals(sprintf($expected, " small"), $small);
+		$this->assertEquals(sprintf($expected, " btn-small"), $small);
 		// Large button
 		$large = $this->TwitterBootstrap->button("Submit", array("size" => "large"));
-		$this->assertEquals(sprintf($expected, " large"), $large);
+		$this->assertEquals(sprintf($expected, " btn-large"), $large);
 		// Mixed button
 		$mixed = $this->TwitterBootstrap->button(
 			"Submit",
 			array("style" => "primary", "size" => "small")
 		);
-		$this->assertEquals(sprintf($expected, " btn-primary small"), $mixed);
+		$this->assertEquals(sprintf($expected, " btn-primary btn-small"), $mixed);
 	}
 
 	/**
@@ -611,7 +614,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			"/home",
 			array("size" => "large")
 		);
-		$expected["a"]["class"] = 'preg:/btn large/';
+		$expected["a"]["class"] = 'preg:/btn btn-large/';
 		$this->assertTags($result, $expected);
 
 		$result = $this->TwitterBootstrap->button_link(
@@ -625,9 +628,9 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$result = $this->TwitterBootstrap->button_link(
 			"Link Text",
 			"/home",
-			array("style" => "info", "size" => "small")
+			array("style" => "info", "size" => "mini")
 		);
-		$expected["a"]["class"] = 'preg:/btn btn-info small/';
+		$expected["a"]["class"] = 'preg:/btn btn-info btn-mini/';
 		$this->assertTags($result, $expected);
 
 		$result = $this->TwitterBootstrap->button_link(
@@ -635,7 +638,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			"/home",
 			array("style" => "info", "size" => "small", "class" => "some-class")
 		);
-		$expected["a"]["class"] = 'preg:/some-class btn btn-info small/';
+		$expected["a"]["class"] = 'preg:/some-class btn btn-info btn-small/';
 		$this->assertTags($result, $expected);
 	}
 
@@ -654,7 +657,8 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
 			'/form',
 			'a' => array(
-				'href' => '#', 'onclick' => 'preg:/document\.(.)+\.submit\(\); event\.returnValue = false; return false;/',
+				'href' => '#',
+				'onclick' => 'preg:/document\.(.)+\.submit\(\); event\.returnValue = false; return false;/',
 				'class' => 'preg:/btn/'
 			),
 			'Link Text',
@@ -664,7 +668,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$result = $this->TwitterBootstrap->button_form("Link Text", "/home");
 		$this->assertTags($result, $expected);
 
-		$expected['a']['class'] = 'preg:/btn small/';
+		$expected['a']['class'] = 'preg:/btn btn-small/';
 		$result = $this->TwitterBootstrap->button_form(
 			"Link Text",
 			"/home",
@@ -680,7 +684,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$expected['a']['class'] = 'preg:/btn btn-success large/';
+		$expected['a']['class'] = 'preg:/btn btn-success btn-large/';
 		$result = $this->TwitterBootstrap->button_form(
 			"Link Text",
 			"/home",
