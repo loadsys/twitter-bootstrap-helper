@@ -422,13 +422,13 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	public function testButtonDropDownMenus() {
 		$expected = array(
 			"div" => array("class" => "btn-group"),
-			array("a" => array(
-				"class" => "btn dropdown-toggle", "data-toggle" => "dropdown", "href" => "#"
+			array("button" => array(
+				"class" => "btn dropdown-toggle", "data-toggle" => "dropdown"
 			)),
 			"Button Text",
 			"span" => array("class" => "caret"),
 			"/span",
-			array("/a" => true),
+			array("/button" => true),
 			"ul" => array("class" => "dropdown-menu"),
 			array("li" => true),
 			array("a" => array("href" => "#")),
@@ -464,17 +464,17 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	public function testSplitButtonDropDownMenus() {
 		$expected = array(
 			"div" => array("class" => "btn-group"),
-			array("a" => array(
-				"class" => "btn", "href" => "#"
+			array("button" => array(
+				"class" => "btn"
 			)),
 			"Button Text",
-			array("/a" => true),
-			array("a" => array(
-				"class" => "btn dropdown-toggle", "data-toggle" => "dropdown", "href" => "#"
+			array("/button" => true),
+			array("button" => array(
+				"class" => "btn dropdown-toggle", "data-toggle" => "dropdown"
 			)),
 			"span" => array("class" => "caret"),
 			"/span",
-			array("/a" => true),
+			array("/button" => true),
 			"ul" => array("class" => "dropdown-menu"),
 			array("li" => true),
 			array("a" => array("href" => "#")),
@@ -511,13 +511,13 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	public function testButtonDropDownMenusStyles() {
 		$expected = array(
 			"div" => array("class" => "btn-group"),
-			array("a" => array(
-				"class" => "btn btn-primary dropdown-toggle", "data-toggle" => "dropdown", "href" => "#"
+			array("button" => array(
+				"class" => "btn btn-primary dropdown-toggle", "data-toggle" => "dropdown"
 			)),
 			"Button Text",
 			"span" => array("class" => "caret"),
 			"/span",
-			array("/a" => true),
+			array("/button" => true),
 			"ul" => array("class" => "dropdown-menu"),
 			array("li" => true),
 			array("a" => array("href" => "#")),
@@ -554,13 +554,13 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	public function testButtonDropDownMenusWithDivider() {
 		$expected = array(
 			"div" => array("class" => "btn-group"),
-			array("a" => array(
-				"class" => "btn btn-danger dropdown-toggle", "data-toggle" => "dropdown", "href" => "#"
+			array("button" => array(
+				"class" => "btn btn-danger dropdown-toggle", "data-toggle" => "dropdown"
 			)),
 			"Button Text",
 			"span" => array("class" => "caret"),
 			"/span",
-			array("/a" => true),
+			array("/button" => true),
 			"ul" => array("class" => "dropdown-menu"),
 			array("li" => true),
 			array("a" => array("href" => "#")),

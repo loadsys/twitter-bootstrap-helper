@@ -392,31 +392,28 @@ class TwitterBootstrapHelper extends AppHelper {
 			}
 		}
 		if ($split) {
-			$button = $this->Html->link(
+			$button = $this->Html->tag(
+				"button",
 				$value,
-				isset($options["url"]) ? $options["url"] : "#",
 				array(
-					"class" => $options["class"],
-					"escape" => false
+					"class" => $options["class"]
 				)
 			);
-			$button .= $this->Html->link(
-				'<span class="caret"></span>',
-				"#",
+			$button .= $this->Html->tag(
+				"button",
+				"\n" . '<span class="caret"></span>',
 				array(
 					"class" => $options["class"] . " dropdown-toggle",
-					"data-toggle" => "dropdown",
-					"escape" => false
+					"data-toggle" => "dropdown"
 				)
 			);
 		} else {
-			$button = $this->Html->link(
+			$button = $this->Html->tag(
+				"button",
 				$value . ' <span class="caret"></span>',
-				isset($options["url"]) ? $options["url"] : "#",
 				array(
 					"class" => $options["class"] . " dropdown-toggle",
-					"data-toggle" => "dropdown",
-					"escape" => false
+					"data-toggle" => "dropdown"
 				)
 			);
 		}
