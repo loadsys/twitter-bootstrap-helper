@@ -546,6 +546,49 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testButtonDropDownMenusSizes
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testButtonDropDownMenusSizes() {
+		$expected = array(
+			"div" => array("class" => "btn-group"),
+			array("button" => array(
+				"class" => "btn btn-large dropdown-toggle", "data-toggle" => "dropdown"
+			)),
+			"Button Text",
+			"span" => array("class" => "caret"),
+			"/span",
+			array("/button" => true),
+			"ul" => array("class" => "dropdown-menu"),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 1",
+			array("/a" => true),
+			array("/li" => true),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 2",
+			array("/a" => true),
+			array("/li" => true),
+			"/ul",
+			"/div"
+		);
+		$button = $this->TwitterBootstrap->button_dropdown(
+			"Button Text",
+			array(
+				"size" => "large",
+				"links" => array(
+					array("Link 1", "#"),
+					array("Link 2", "#")
+				)
+			)
+		);
+		$this->assertTags($button, $expected);
+	}
+
+	/**
 	 * testButtonDropDownMenusStyles
 	 * 
 	 * @access public
@@ -888,9 +931,9 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testInputWithOnlyFieldAndInput() {
 		$expected = array(
-			array('div' => array("class" => "clearfix")),
-			"label" => array("for" => "ContactName"), "Name", "/label",
-			array("div" => array("class" => "input")),
+			array('div' => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
 			"input" => array(
 				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
 			),
@@ -902,14 +945,14 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 			"input" => $this->Form->text("name")
 		));
 		$this->Form->end();
-		//$this->assertTags($input, $expected);
+		$this->assertTags($input, $expected);
 		$this->Form->create("Contact");
 		$input = $this->TwitterBootstrap->input(array(
 			"field" => "name",
 			"input" => $this->Form->text("name")
 		));
 		$this->Form->end();
-		//$this->assertTags($input, $expected);
+		$this->assertTags($input, $expected);
 	}
 
 	/**
@@ -920,11 +963,11 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testInputWithDefinedLabel() {
 		$expected = array(
-			array("div" => array("class" => "clearfix")),
-			"label" => array("for" => "ContactName"), "Contact Name", "/label",
-			array("div" => array("class" => "input")),
+			array("div" => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Contact Name", "/label",
+			array("div" => array("class" => "controls")),
 			"input" => array(
-				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
 			),
 			"/div",
 			"/div"
@@ -932,7 +975,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$this->Form->create("Contact");
 		$input = $this->TwitterBootstrap->input("name", array("label" => "Contact Name"));
 		$this->Form->end();
-		//$this->assertTags($input, $expected);
+		$this->assertTags($input, $expected);
 	}
 
 }
