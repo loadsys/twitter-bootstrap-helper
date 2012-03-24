@@ -908,11 +908,11 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	 */
 	public function testInputWithOnlyField() {
 		$expected = array(
-			array('div' => array("class" => "clearfix")),
-			"label" => array("for" => "ContactName"), "Name", "/label",
-			array("div" => array("class" => "input")),
+			array('div' => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
 			"input" => array(
-				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
 			),
 			"/div",
 			"/div"
@@ -920,7 +920,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$this->Form->create("Contact");
 		$input = $this->TwitterBootstrap->input("name");
 		$this->Form->end();
-		//$this->assertTags($input, $expected);
+		$this->assertTags($input, $expected);
 	}
 
 	/**
