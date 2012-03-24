@@ -358,6 +358,74 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
+	 * Builds a button dropdown menu with the $value as the button text and the
+	 * "links" option as the dropdown items
+	 * @param  string $value
+	 * @param  array  $options
+	 * @return string
+	 */
+	public function button_dropdown($value = "", $options = array()) {
+		$_links = isset($options["links"]) ? $options["links"] : array();
+		$split = isset($options["split"]) ? (bool)$options["split"] : false;
+		$options = $this->button_options($options);
+		$links = "";
+		foreach ($_links as $link) {
+			if (is_array($link)) {
+				$title = $url = $opt = $confirm = null;
+				if (isset($link[0])) {
+					$title = $link[0];
+				} else {
+					continue;
+				}
+				if (isset($link[1])) {
+					$url = $link[1];
+				} else {
+					continue;
+				}
+				$opt = isset($link[2]) ? $link[2] : array();
+				$confirm = isset($link[3]) ? $link[3] : false;
+				$links .= "<li>".$this->Html->link($title, $url, $opt, $confirm)."</li>";
+			} elseif (is_string($link)) {
+				$links .= "<li>{$link}</li>";
+			} else {
+				$links .= '<li class="divider"></li>';
+			}
+		}
+		if ($split) {
+			$button = $this->Html->link(
+				$value,
+				isset($options["url"]) ? $options["url"] : "#",
+				array(
+					"class" => $options["class"],
+					"escape" => false
+				),
+				false
+			);
+			$button .= $this->Html->link(
+				'<span class="caret">&nbsp;</span>',
+				"#",
+				array(
+					"class" => $options["class"] . " dropdown-toggle",
+					"data-toggle" => "dropdown",
+					"escape" => false
+				)
+			);
+		} else {
+			$button = $this->Html->link(
+				$value . ' <span class="caret">&nbsp;</span>',
+				isset($options["url"]) ? $options["url"] : "#",
+				array(
+					"class" => $options["class"] . " dropdown-toggle",
+					"data-toggle" => "dropdown",
+					"escape" => false
+				)
+			);
+		}
+		$links = $this->Html->tag("ul", $links, array("class" => "dropdown-menu"));
+		return $this->Html->tag("div", $button . $links, array("class" => "btn-group"));
+	}
+
+	/**
 	 * Wraps the html link method and applies the Bootstrap classes to the options array
 	 * before passing it on to the html link method. 
 	 * 

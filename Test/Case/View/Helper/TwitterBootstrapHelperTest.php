@@ -411,6 +411,95 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testButtonDropDownMenus
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testButtonDropDownMenus() {
+		$expected = array(
+			"div" => array("class" => "btn-group"),
+			array("a" => array(
+				"class" => "btn dropdown-toggle", "data-toggle" => "dropdown", "href" => "#"
+			)),
+			"Button Text",
+			"span" => array("class" => "caret"),
+			"/span",
+			array("/a" => true),
+			"ul" => array("class" => "dropdown-menu"),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 1",
+			array("/a" => true),
+			array("/li" => true),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 2",
+			array("/a" => true),
+			array("/li" => true),
+			"/ul",
+			"/div"
+		);
+		$button = $this->TwitterBootstrap->button_dropdown(
+			"Button Text",
+			array(
+				"links" => array(
+					array("Link 1", "#"),
+					array("Link 2", "#")
+				)
+			)
+		);
+		$this->assertTags($button, $expected);
+	}
+
+	/**
+	 * testSplitButtonDropDownMenus
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testSplitButtonDropDownMenus() {
+		$expected = array(
+			"div" => array("class" => "btn-group"),
+			array("a" => array(
+				"class" => "btn", "href" => "#"
+			)),
+			"Button Text",
+			array("/a" => true),
+			array("a" => array(
+				"class" => "btn dropdown-toggle", "data-toggle" => "dropdown", "href" => "#"
+			)),
+			"span" => array("class" => "caret"),
+			"/span",
+			array("/a" => true),
+			"ul" => array("class" => "dropdown-menu"),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 1",
+			array("/a" => true),
+			array("/li" => true),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 2",
+			array("/a" => true),
+			array("/li" => true),
+			"/ul",
+			"/div"
+		);
+		$button = $this->TwitterBootstrap->button_dropdown(
+			"Button Text",
+			array(
+				"split" => true,
+				"links" => array(
+					array("Link 1", "#"),
+					array("Link 2", "#")
+				)
+			)
+		);
+		$this->assertTags($button, $expected);
+	}
+
+	/**
 	 * testValidButtonLinks 
 	 * 
 	 * @access public
