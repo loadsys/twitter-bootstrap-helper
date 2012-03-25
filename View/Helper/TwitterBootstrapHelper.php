@@ -269,7 +269,11 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		foreach (array_keys($combine_markup) as $combine) {
 			if (isset($options[$combine]) && !empty($options[$combine])) {
-				$_tag = (strpos("input", $options[$combine]) !== false) ? "label" : "span";
+				if (strpos("input", $options[$combine]) !== false) {
+					$_tag = "label";
+				} else {
+					$_tag = "span";
+				}
 				$combine_markup[$combine] = $this->Html->tag(
 					$_tag,
 					$options[$combine],
@@ -284,7 +288,10 @@ class TwitterBootstrapHelper extends AppHelper {
 				array("class" => "input-append")
 			);
 		}
-		if (empty($combine_markup["append"]) && !empty($combine_markup["prepend"])) {
+		if (
+			empty($combine_markup["append"]) &&
+			!empty($combine_markup["prepend"])
+		) {
 			$input = $this->Html->tag(
 				"div",
 				$input.$options[$combine],
@@ -331,7 +338,9 @@ class TwitterBootstrapHelper extends AppHelper {
 		} else {
 			$options["field"] = $field;
 		}
-		if (!isset($options["options"]) || !isset($options["field"])) { return ""; }
+		if (!isset($options["options"]) || !isset($options["field"])) {
+			return "";
+		}
 		$opt = $options["options"];
 		unset($options["options"]);
 		$inputs = "";
@@ -348,7 +357,11 @@ class TwitterBootstrapHelper extends AppHelper {
 				$id = end($id[0]);
 				$id = substr($id, 4);
 				$id = substr($id, 0, -1);
-				$input = $this->Html->tag("label", $input, array("class" => "radio", "for" => $id));
+				$input = $this->Html->tag(
+					"label",
+					$input,
+					array("class" => "radio", "for" => $id)
+				);
 			}
 			$inputs .= $input;
 		}
@@ -357,8 +370,8 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * Wraps the form button method and just applies the Bootstrap classes to the button
-	 * before passing the options on to the FormHelper button method. 
+	 * Wraps the form button method and just applies the Bootstrap classes to
+	 * the button before passing the options on to the FormHelper button method. 
 	 * 
 	 * @param string $value 
 	 * @param array $options 
@@ -397,7 +410,8 @@ class TwitterBootstrapHelper extends AppHelper {
 				}
 				$opt = isset($link[2]) ? $link[2] : array();
 				$confirm = isset($link[3]) ? $link[3] : false;
-				$links .= "<li>".$this->Html->link($title, $url, $opt, $confirm)."</li>";
+				$l = "<li>".$this->Html->link($title, $url, $opt, $confirm)."</li>";
+				$links .= $l;
 			} elseif (is_string($link)) {
 				$links .= "<li>{$link}</li>";
 			} else {
@@ -439,12 +453,16 @@ class TwitterBootstrapHelper extends AppHelper {
 			$ul_class .= " pull-right";
 		}
 		$links = $this->Html->tag("ul", $links, array("class" => $ul_class));
-		return $this->Html->tag("div", $button . $links, array("class" => $group_class));
+		return $this->Html->tag(
+			"div",
+			$button . $links,
+			array("class" => $group_class)
+		);
 	}
 
 	/**
-	 * Wraps the html link method and applies the Bootstrap classes to the options array
-	 * before passing it on to the html link method. 
+	 * Wraps the html link method and applies the Bootstrap classes to the 
+	 * options array before passing it on to the html link method. 
 	 * 
 	 * @param mixed $title 
 	 * @param mixed $url 
@@ -459,8 +477,8 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * Wraps the postLink method to create post links that use the bootstrap button
-	 * styles. 
+	 * Wraps the postLink method to create post links that use the bootstrap
+	 * button styles. 
 	 * 
 	 * @param mixed $title 
 	 * @param mixed $url 
@@ -475,35 +493,47 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	/**
-	 * Takes the array of options from $this->button or $this->button_link and returns
-	 * the modified array with the bootstrap classes 
+	 * Takes the array of options from $this->button or $this->button_link
+	 * and returns the modified array with the bootstrap classes 
 	 * 
 	 * @param mixed $options 
 	 * @access public
 	 * @return string
 	 */
 	public function button_options($options) {
-		$valid_styles = array("danger", "info", "primary", "warning", "success", "inverse");
+		$valid_styles = array(
+			"danger", "info", "primary",
+			"warning", "success", "inverse"
+		);
 		$valid_sizes = array("mini", "small", "large");
 		$style = isset($options["style"]) ? $options["style"] : "";
 		$size = isset($options["size"]) ? $options["size"] : "";
-		$disabled = isset($options["disabled"]) ? (bool)$options["disabled"] : false;
+		$disabled = false;
+		if (isset($options["disabled"])) {
+			$disabled = (bool)$options["disabled"]
+		}
 		$class = "btn";
 		if (!empty($style) && in_array($style, $valid_styles)) {
 			$class .= " btn-{$style}";
 		}
-		if (!empty($size) && in_array($size, $valid_sizes)) { $class .= " btn-{$size}"; }
+		if (!empty($size) && in_array($size, $valid_sizes)) {
+			$class .= " btn-{$size}";
+		}
 		if ($disabled) { $class .= " btn-disabled"; }
 		unset($options["style"]);
 		unset($options["size"]);
 		unset($options["disabled"]);
-		$options["class"] = isset($options["class"]) ? $options["class"] . " " . $class : $class;
+		if (isset($options["class"])) {
+			$options["class"] = $options["class"] . " " . $class;
+		} else {
+			$options["class"] = $class;
+		}
 		return $options;
 	}
 
 	/**
-	 * Delegates to the HtmlHelper::getCrumbList() method and sets the proper class for the
-	 * breadcrumbs class. 
+	 * Delegates to the HtmlHelper::getCrumbList() method and sets the proper
+	 * class for the breadcrumbs class. 
 	 * 
 	 * @param array $options 
 	 * @access public
@@ -634,10 +664,18 @@ class TwitterBootstrapHelper extends AppHelper {
 		if (isset($options["active"]) && $options["active"]) {
 			$class .= " active";
 		}
-		if (isset($options["width"]) && !empty($options["width"]) && is_int($options["width"])) {
+		if (
+			isset($options["width"]) &&
+			!empty($options["width"]) &&
+			is_int($options["width"])
+		) {
 			$width = $options["width"];
 		}
-		$bar = $this->Html->tag("div", "", array("class" => "bar", "style" => "width: {$width}%;"));
+		$bar = $this->Html->tag(
+			"div", 
+			"",
+			array("class" => "bar", "style" => "width: {$width}%;")
+		);
 		return $this->Html->tag("div", $bar, array("class" => $class));
 	}
 
@@ -755,9 +793,17 @@ class TwitterBootstrapHelper extends AppHelper {
 			$close = '<a class="close" data-dismiss="alert">&times;</a>';
 		}
 		if (isset($options["heading"]) && !empty($options["heading"])) {
-			$heading = $this->Html->tag("h4", $options["heading"], array("class" => "alert-heading"));
+			$heading = $this->Html->tag(
+				"h4",
+				$options["heading"],
+				array("class" => "alert-heading")
+			);
 		}
-		return $this->Html->tag("div", $close.$heading.$message, array("class" => $class));
+		return $this->Html->tag(
+			"div",
+			$close.$heading.$message,
+			array("class" => $class)
+		);
 	}
 
 }
