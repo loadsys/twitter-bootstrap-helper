@@ -250,7 +250,29 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function breadcrumbs($options = array()) {
-		return $this->getCrumbList(array_merge(array("class" => "breadcrumb"), $options));
+		$crumbs = $this->Html->getCrumbs("%%");
+		$crumbs = explode("%%", $crumbs);
+		$out = "";
+		$divider = "/";
+		if (isset($options["class"])) {
+			$options["class"] .= " breadcrumb";
+		} else {
+			$options["class"] = "breadcrumb";
+		}
+		if (isset($options["divider"])) {
+			$divider = $options["divider"];
+			unset($options["divider"]);
+		}
+		for ($i = 0; $i < count($crumbs); $i += 1) {
+			$opt = array();
+			$d = $this->Html->tag("span", $divider, array("class" => "divider"));
+			if (!isset($crumbs[$i + 1])) {
+				$opt["class"] = "active";
+				$d = "";
+			}
+			$out .= $this->Html->tag("li", $crumbs[$i] . $d, $opt);
+		}
+		return $this->Html->tag("ul", $out, $options);
 	}
 
 	/**
