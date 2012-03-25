@@ -471,9 +471,9 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function button_link($title, $url, $options = array(), $confirm = false) {
-		$options = $this->button_options($options);
-		return $this->Html->link($title, $url, $options, $confirm);
+	public function button_link($title, $url, $opt = array(), $confirm = false) {
+		$opt = $this->button_options($opt);
+		return $this->Html->link($title, $url, $opt, $confirm);
 	}
 
 	/**
@@ -487,9 +487,9 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function button_form($title, $url, $options = array(), $confirm = false) {
-		$options = $this->button_options($options);
-		return $this->Form->postLink($title, $url, $options, $confirm);
+	public function button_form($title, $url, $opt = array(), $confirm = false) {
+		$opt = $this->button_options($opt);
+		return $this->Form->postLink($title, $url, $opt, $confirm);
 	}
 
 	/**
@@ -510,7 +510,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		$size = isset($options["size"]) ? $options["size"] : "";
 		$disabled = false;
 		if (isset($options["disabled"])) {
-			$disabled = (bool)$options["disabled"]
+			$disabled = (bool)$options["disabled"];
 		}
 		$class = "btn";
 		if (!empty($style) && in_array($style, $valid_styles)) {
