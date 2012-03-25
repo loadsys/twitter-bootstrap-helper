@@ -737,6 +737,61 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testBreadCrumbs
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testBreadCrumbs() {
+		$expected = array(
+			"ul" => array("class" => "breadcrumb"),
+			array("li" => true),
+			array("a" => array("href" => "/")), "Home", "/a",
+			array("span" => array("class" => "divider")),
+			"preg:/\//",
+			"/span",
+			"/li",
+			array("li" => array("class" => "active")),
+			array("a" => array("href" => "/sub")), "Subpage", "/a",
+			"/li",
+			"/ul"
+		);
+		$this->TwitterBootstrap->add_crumb("Home", "/");
+		$this->TwitterBootstrap->add_crumb("Subpage", "/sub");
+		$results = $this->TwitterBootstrap->breadcrumbs();
+		$this->assertTags($results, $expected);
+	}
+
+	/**
+	 * testBreadCrumbsWithOptions
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testBreadCrumbsWithOptions() {
+		$expected = array(
+			"ul" => array("class" => "custom-class breadcrumb"),
+			array("li" => true),
+			array("a" => array("href" => "/")), "Home", "/a",
+			array("span" => array("class" => "divider")),
+			"preg:/%/",
+			"/span",
+			"/li",
+			array("li" => array("class" => "active")),
+			array("a" => array("href" => "/sub")), "Subpage", "/a",
+			"/li",
+			"/ul"
+		);
+		$this->TwitterBootstrap->add_crumb("Home", "/");
+		$this->TwitterBootstrap->add_crumb("Subpage", "/sub");
+		$results = $this->TwitterBootstrap->breadcrumbs(array(
+			"class" => "custom-class",
+			"divider" => "%"
+		));
+		$this->assertTags($results, $expected);
+	}
+
+	/**
 	 * testValidFlash 
 	 * 
 	 * @access public
