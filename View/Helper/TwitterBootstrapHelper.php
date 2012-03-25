@@ -430,8 +430,16 @@ class TwitterBootstrapHelper extends AppHelper {
 				)
 			);
 		}
-		$links = $this->Html->tag("ul", $links, array("class" => "dropdown-menu"));
-		return $this->Html->tag("div", $button . $links, array("class" => "btn-group"));
+		$group_class = "btn-group";
+		$ul_class = "dropdown-menu";
+		if (isset($options["dropup"]) && $options["dropup"]) {
+			$group_class .= " dropup";
+		}
+		if (isset($options["right"]) && $options["right"]) {
+			$ul_class .= " pull-right";
+		}
+		$links = $this->Html->tag("ul", $links, array("class" => $ul_class));
+		return $this->Html->tag("div", $button . $links, array("class" => $group_class));
 	}
 
 	/**

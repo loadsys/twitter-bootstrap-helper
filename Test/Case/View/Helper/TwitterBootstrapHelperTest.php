@@ -635,6 +635,148 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testButtonDropUpMenus
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testButtonDropUpMenus() {
+		$expected = array(
+			"div" => array("class" => "btn-group dropup"),
+			array("button" => array(
+				"class" => "btn btn-danger dropdown-toggle", "data-toggle" => "dropdown"
+			)),
+			"Button Text",
+			"span" => array("class" => "caret"),
+			"/span",
+			array("/button" => true),
+			"ul" => array("class" => "dropdown-menu"),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 1",
+			array("/a" => true),
+			array("/li" => true),
+			array("li" => array("class" => "divider")),
+			array("/li" => true),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 2",
+			array("/a" => true),
+			array("/li" => true),
+			"/ul",
+			"/div"
+		);
+		$button = $this->TwitterBootstrap->button_dropdown(
+			"Button Text",
+			array(
+				"style" => "danger",
+				"dropup" => true,
+				"links" => array(
+					array("Link 1", "#"),
+					null,
+					array("Link 2", "#")
+				)
+			)
+		);
+		$this->assertTags($button, $expected);
+	}
+
+	/**
+	 * testButtonDropDownRightMenus
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testButtonDropDownRightMenus() {
+		$expected = array(
+			"div" => array("class" => "btn-group"),
+			array("button" => array(
+				"class" => "btn btn-warning dropdown-toggle", "data-toggle" => "dropdown"
+			)),
+			"Button Text",
+			"span" => array("class" => "caret"),
+			"/span",
+			array("/button" => true),
+			"ul" => array("class" => "dropdown-menu pull-right"),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 1",
+			array("/a" => true),
+			array("/li" => true),
+			array("li" => array("class" => "divider")),
+			array("/li" => true),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 2",
+			array("/a" => true),
+			array("/li" => true),
+			"/ul",
+			"/div"
+		);
+		$button = $this->TwitterBootstrap->button_dropdown(
+			"Button Text",
+			array(
+				"style" => "warning",
+				"right" => true,
+				"links" => array(
+					array("Link 1", "#"),
+					null,
+					array("Link 2", "#")
+				)
+			)
+		);
+		$this->assertTags($button, $expected);
+	}
+
+/**
+	 * testButtonDropUpRightMenus
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testButtonDropUpRightMenus() {
+		$expected = array(
+			"div" => array("class" => "btn-group dropup"),
+			array("button" => array(
+				"class" => "btn btn-warning dropdown-toggle", "data-toggle" => "dropdown"
+			)),
+			"Button Text",
+			"span" => array("class" => "caret"),
+			"/span",
+			array("/button" => true),
+			"ul" => array("class" => "dropdown-menu pull-right"),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 1",
+			array("/a" => true),
+			array("/li" => true),
+			array("li" => array("class" => "divider")),
+			array("/li" => true),
+			array("li" => true),
+			array("a" => array("href" => "#")),
+			"Link 2",
+			array("/a" => true),
+			array("/li" => true),
+			"/ul",
+			"/div"
+		);
+		$button = $this->TwitterBootstrap->button_dropdown(
+			"Button Text",
+			array(
+				"style" => "warning",
+				"right" => true,
+				"dropup" => true,
+				"links" => array(
+					array("Link 1", "#"),
+					null,
+					array("Link 2", "#")
+				)
+			)
+		);
+		$this->assertTags($button, $expected);
+	}
+
+	/**
 	 * testValidButtonLinks 
 	 * 
 	 * @access public
