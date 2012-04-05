@@ -12,7 +12,7 @@ CakePHP helper for rendering bootstrap appropriate markup. Uses the Twitter Boot
 
 Check out the the repo in the plugins directory
 
-	git clone git@github.com/loadsys/twitter-bootstrap-helper TwitterBootstrap
+	git clone git://github.com/loadsys/twitter-bootstrap-helper TwitterBootstrap
 
 Add the plugin inclusion in the project bootstrap file
 
