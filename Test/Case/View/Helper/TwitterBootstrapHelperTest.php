@@ -1121,6 +1121,33 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testInputWithInputClassDefined
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithInputClassDefined() {
+		$expected = array(
+			array('div' => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
+			"input" => array(
+				"name" => "data[Contact][name]",
+				"maxlength" => 255,
+				"type" => "text",
+				"id" => "ContactName",
+				"class" => "custom-class"
+			),
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array("class" => "custom-class"));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
 	 * testInputWithOnlyFieldAndInput 
 	 * 
 	 * @access public

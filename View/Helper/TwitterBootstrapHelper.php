@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Helper that captures the Session flash and renders it in proper html
@@ -264,6 +263,9 @@ class TwitterBootstrapHelper extends AppHelper {
 			$opt = array("div" => false, "label" => false, "error" => false);
 			if (isset($options["type"]) && !empty($options["type"])) {
 				$opt["type"] = $options["type"];
+			}
+			if (isset($options["class"])) {
+				$opt["class"] = $options["class"];
 			}
 			$input = $this->Form->input($options["field"], $opt);
 		}
