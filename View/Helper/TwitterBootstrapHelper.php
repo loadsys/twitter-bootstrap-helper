@@ -812,7 +812,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		);
 	}
 
-	public function pageHeader($title){
+	public function page_header($title){
 		return $this->Html->tag(
 			"div",
 			"<h1>$title</h1>",
