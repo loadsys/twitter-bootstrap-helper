@@ -240,7 +240,8 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		return $this->Html->tag(
 			"div",
-			$options['type'].$options['label'].$input,
+			// $options['type'].$options['label'].$input,
+			$options['label'].$input,
 			array("class" => $wrap_class)
 		);
 	}
@@ -266,6 +267,9 @@ class TwitterBootstrapHelper extends AppHelper {
 			}
 			if (isset($options["class"])) {
 				$opt["class"] = $options["class"];
+			}
+			if (isset($options["value"])) {
+				$opt["value"] = $options["value"];
 			}
 			$input = $this->Form->input($options["field"], $opt);
 		}
@@ -805,6 +809,14 @@ class TwitterBootstrapHelper extends AppHelper {
 			"div",
 			$close.$heading.$message,
 			array("class" => $class)
+		);
+	}
+
+	public function pageHeader($title){
+		return $this->Html->tag(
+			"div",
+			"<h1>$title</h1>",
+			array("class" => "page-header")
 		);
 	}
 
