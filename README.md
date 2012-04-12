@@ -195,3 +195,5 @@ The valid options for "style" are "warning", "error", "success", "info". If the 
 ### TwitterBootstrapHelper::page_header(string)
 
 `TwitterBootstrap->page_header(string)` will print a page heading TB style.
+
+	echo $this->TwitterBootstrap->page_header("Page Header");
