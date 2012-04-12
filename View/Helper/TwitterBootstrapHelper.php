@@ -240,7 +240,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		return $this->Html->tag(
 			"div",
-			$options['type'].$options['label'].$input,
+			$options['label'].$input,
 			array("class" => $wrap_class)
 		);
 	}
