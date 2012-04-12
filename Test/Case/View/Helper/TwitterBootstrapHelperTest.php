@@ -174,6 +174,22 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 	
 	/**
+	 * testPageHeader
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function testPageHeader() {
+		$expected = array(
+			array("div" => array("class" => "page-header")),
+			array("h1" => true), "Page Header", "/h1",
+			"/div"
+		);
+		$header = $this->TwitterBootstrap->page_header("Page Header");
+		$this->assertTags($header, $expected);
+	}
+	
+	/**
 	 * testValidLabels 
 	 * 
 	 * @access public
