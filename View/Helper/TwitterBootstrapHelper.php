@@ -267,6 +267,9 @@ class TwitterBootstrapHelper extends AppHelper {
 			if (isset($options["class"])) {
 				$opt["class"] = $options["class"];
 			}
+			if (isset($options["value"])) {
+				$opt["value"] = $options["value"];
+			}
 			$input = $this->Form->input($options["field"], $opt);
 		}
 		foreach (array_keys($combine_markup) as $combine) {
@@ -805,6 +808,14 @@ class TwitterBootstrapHelper extends AppHelper {
 			"div",
 			$close.$heading.$message,
 			array("class" => $class)
+		);
+	}
+
+	public function page_header($title){
+		return $this->Html->tag(
+			"div",
+			"<h1>$title</h1>",
+			array("class" => "page-header")
 		);
 	}
 

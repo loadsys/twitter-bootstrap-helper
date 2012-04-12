@@ -137,3 +137,7 @@ Passing "auth" => true, will include the "auth" string in the loop of keys to tr
 	);
 
 The valid options for "style" are "warning", "error", "success", "info". If the "closable" option is passed with a value of true, then the close link is added. Here is info on the [javascript closable alerts](http://twitter.github.com/bootstrap/javascript.html#alerts).
+
+### TwitterBootstrapHelper::page_header(string)
+
+`TwitterBootstrap->page_header(string)` will print a page heading TB style.
