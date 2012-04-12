@@ -811,6 +811,12 @@ class TwitterBootstrapHelper extends AppHelper {
 		);
 	}
 
+	/**
+	 * Displays an h1 tag wrapped in a div with the page-header class
+	 * 
+	 * @param string $title
+	 * @return string
+	 */
 	public function page_header($title){
 		return $this->Html->tag(
 			"div",
