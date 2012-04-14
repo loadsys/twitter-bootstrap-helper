@@ -950,6 +950,22 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 	}
 
 	/**
+	 * testIcon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testIcon() {
+		$expected = '<i class="icon-test"></i>';
+		$result = $this->TwitterBootstrap->icon("test");
+		$this->assertEquals($result, $expected);
+
+		$expected = '<i class="icon-test icon-white"></i>';
+		$result = $this->TwitterBootstrap->icon("test", "white");
+		$this->assertEquals($result, $expected);
+	}
+
+	/**
 	 * testValidFlash 
 	 * 
 	 * @access public
