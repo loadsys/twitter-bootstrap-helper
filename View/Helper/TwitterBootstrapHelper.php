@@ -646,7 +646,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		if ($color === "white") {
 			$class = "{$class} icon-white";
 		}
-		return $this->Html->tag("i", array("class" => $class));
+		return $this->Html->tag("i", false, array("class" => $class));
 	}
 
 	/**
