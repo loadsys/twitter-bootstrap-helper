@@ -274,11 +274,14 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		foreach (array_keys($combine_markup) as $combine) {
 			if (isset($options[$combine]) && !empty($options[$combine])) {
+				/*
+					???
 				if (strpos("input", $options[$combine]) !== false) {
 					$_tag = "label";
 				} else {
 					$_tag = "span";
-				}
+				}*/
+				$_tag = "span";
 				$combine_markup[$combine] = $this->Html->tag(
 					$_tag,
 					$options[$combine],
@@ -289,7 +292,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		if (!empty($combine_markup["append"])) {
 			$input = $this->Html->tag(
 				"div",
-				$options[$combine].$input,
+				$input.$combine_markup['append'],
 				array("class" => "input-append")
 			);
 		}
@@ -299,7 +302,7 @@ class TwitterBootstrapHelper extends AppHelper {
 		) {
 			$input = $this->Html->tag(
 				"div",
-				$input.$options[$combine],
+				$combine_markup['prepend'].$input,
 				array("class" => "input-prepend")
 			);
 		}
