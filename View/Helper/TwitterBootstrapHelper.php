@@ -53,7 +53,8 @@ class TwitterBootstrapHelper extends AppHelper {
 			"label" => "",
 			"append" => false,
 			"prepend" => false,
-			"state" => false
+			"state" => false,
+			"placeholder" => false
 		);
 		return array_merge($defaults, $options);
 	}
@@ -269,6 +270,9 @@ class TwitterBootstrapHelper extends AppHelper {
 			}
 			if (isset($options["value"])) {
 				$opt["value"] = $options["value"];
+			}
+			if (isset($options["placeholder"])) {
+				$opt["placeholder"] = $options["placeholder"];
 			}
 			$input = $this->Form->input($options["field"], $opt);
 		}
