@@ -15,6 +15,21 @@ class TwitterBootstrapHelper extends AppHelper {
 	 * @access public
 	 */
 	public $helpers = array("Form", "Html", "Session");
+	
+	/**
+	 * Options used internally. Don't send any of these options along to FormHelper
+	 *
+	 * @var array
+	 * @access private
+	 */
+	private $__dontSendToFormHelper = array(
+		'help_inline',
+		'help_block',
+		'label',
+		'div',
+		'error',
+		'checkbox_label'
+	);
 
 	/**
 	 * basic_input 
@@ -261,16 +276,15 @@ class TwitterBootstrapHelper extends AppHelper {
 			$input = $options["input"];
 		} else {
 			$opt = array("div" => false, "label" => false, "error" => false);
-			if (isset($options["type"]) && !empty($options["type"])) {
-				$opt["type"] = $options["type"];
-			}
-			if (isset($options["class"])) {
-				$opt["class"] = $options["class"];
-			}
-			if (isset($options["value"])) {
-				$opt["value"] = $options["value"];
+			foreach ($options as $key => $value) {
+				if (!in_array($key, $this->__dontSendToFormHelper)) {
+					if ($key !== 'type' || !empty($value)) $opt[$key] = $value;
+				}
 			}
 			$input = $this->Form->input($options["field"], $opt);
+			if (isset($options["checkbox_label"])) {
+				$input = $this->Form->label($options["field"], $input.' '.$options["checkbox_label"], array('class' => 'checkbox'));
+			}
 		}
 		foreach (array_keys($combine_markup) as $combine) {
 			if (isset($options[$combine]) && !empty($options[$combine])) {
