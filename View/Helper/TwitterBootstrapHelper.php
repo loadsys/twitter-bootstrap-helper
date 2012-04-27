@@ -28,7 +28,9 @@ class TwitterBootstrapHelper extends AppHelper {
 		'label',
 		'div',
 		'error',
-		'checkbox_label'
+		'checkbox_label',
+		'append',
+		'prepend'
 	);
 
 	/**
@@ -68,8 +70,7 @@ class TwitterBootstrapHelper extends AppHelper {
 			"label" => "",
 			"append" => false,
 			"prepend" => false,
-			"state" => false,
-			"placeholder" => false
+			"state" => false
 		);
 		return array_merge($defaults, $options);
 	}
@@ -281,9 +282,6 @@ class TwitterBootstrapHelper extends AppHelper {
 				if (!in_array($key, $this->__dontSendToFormHelper)) {
 					if ($key !== 'type' || !empty($value)) $opt[$key] = $value;
 				}
-			}
-			if (isset($options["placeholder"])) {
-				$opt["placeholder"] = $options["placeholder"];
 			}
 			$input = $this->Form->input($options["field"], $opt);
 			if (isset($options["checkbox_label"])) {
