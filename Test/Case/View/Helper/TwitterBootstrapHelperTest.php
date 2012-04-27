@@ -135,7 +135,7 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 
 	public $validLabel = '<span class="label%s">Message</span>';
 
-	public $validButton = '<button type="submit" class="btn%s">Submit</button>';
+	public $validButton = '<button class="btn%s" type="submit">Submit</button>';
 
 /**
  * setUp method
@@ -253,8 +253,8 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$badge = $this->TwitterBootstrap->badge(1, "warning");
 		$this->assertTags($badge, $expected);
 
-		$expected = array("span" => array("class" => "badge badge-error"), 1, "/span");
-		$badge = $this->TwitterBootstrap->badge(1, "error");
+		$expected = array("span" => array("class" => "badge badge-important"), 1, "/span");
+		$badge = $this->TwitterBootstrap->badge(1, "important");
 		$this->assertTags($badge, $expected);
 
 		$expected = array("span" => array("class" => "badge badge-info"), 1, "/span");
@@ -1233,5 +1233,56 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$this->Form->end();
 		$this->assertTags($input, $expected);
 	}
-
+	
+	/**
+	 * testInputWithAppendAddon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithAppendAddon() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-append")),
+			"input" => array(
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
+			),
+			"span" => array("class" => "add-on"), "A", "/span",
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array("append" => "A"));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+	
+	/**
+	 * testInputWithPrependAddon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithPrependAddon() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-prepend")),
+			"span" => array("class" => "add-on"), "P", "/span",
+			"input" => array(
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
+			),
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array("prepend" => "P"));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
 }

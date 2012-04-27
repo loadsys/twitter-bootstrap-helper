@@ -30,7 +30,8 @@ class TwitterBootstrapHelper extends AppHelper {
 		'error',
 		'checkbox_label',
 		'append',
-		'prepend'
+		'prepend',
+		'field'
 	);
 
 	/**
