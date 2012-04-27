@@ -627,7 +627,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	 */
 	public function badge($num = 0, $style = "", $options = array()) {
 		$class = "badge";
-		$valid = array("success", "warning", "error", "info", "inverse");
+		$valid = array("success", "warning", "important", "info", "inverse");
 		if (!empty($style) && in_array($style, $valid)) {
 			$class .= " badge-{$style}";
 		}
