@@ -291,36 +291,38 @@ class TwitterBootstrapHelper extends AppHelper {
 		}
 		foreach (array_keys($combine_markup) as $combine) {
 			if (isset($options[$combine]) && !empty($options[$combine])) {
-				/*
-					???
-				if (strpos("input", $options[$combine]) !== false) {
-					$_tag = "label";
-				} else {
-					$_tag = "span";
-				}*/
 				$_tag = "span";
-				$combine_markup[$combine] = $this->Html->tag(
-					$_tag,
-					$options[$combine],
-					array("class" => "add-on")
-				);
+				if (strpos($options[$combine], "button") !== false) {
+					$_tag = false;
+				}
+				if (strpos($options[$combine], "input") !== false) {
+					$_tag = "label";
+				}
+				if ($_tag) {
+					$combine_markup[$combine] = $this->Html->tag(
+						$_tag,
+						$options[$combine],
+						array("class" => "add-on")
+					);
+				} else {
+					$combine_markup[$combine] = $options[$combine];
+				}
 			}
 		}
+		$_class = "";
 		if (!empty($combine_markup["append"])) {
-			$input = $this->Html->tag(
-				"div",
-				$input.$combine_markup['append'],
-				array("class" => "input-append")
-			);
+			$input = $input . $combine_markup["append"];
+			$_class .= " input-append";
 		}
-		if (
-			empty($combine_markup["append"]) &&
-			!empty($combine_markup["prepend"])
-		) {
+		if (!empty($combine_markup["prepend"])) {
+			$input = $combine_markup["prepend"] . $input;
+			$_class .= " input-prepend";
+		}
+		if (!empty($combine_markup["append"]) || !empty($combine_markup["prepend"])) {
 			$input = $this->Html->tag(
 				"div",
-				$combine_markup['prepend'].$input,
-				array("class" => "input-prepend")
+				$input,
+				array("class" => trim($_class))
 			);
 		}
 		return $input;

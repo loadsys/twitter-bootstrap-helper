@@ -1259,6 +1259,74 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		$this->Form->end();
 		$this->assertTags($input, $expected);
 	}
+
+	/**
+	 * testInputWithAppendButtonAddon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithAppendButtonAddon() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-append")),
+			"input" => array(
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
+			),
+			"button" => array("class" => "btn", "type" => "button"), "Go", "/button",
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array(
+			"append" => $this->TwitterBootstrap->button("Go", array("type" => "button"))
+		));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
+	 * testInputWithAppendInputAddon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithAppendInputAddon() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			array("label" => array("for" => "ContactName", "class" => "control-label")),
+				"Name",
+			"/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-append")),
+			array("input" => array(
+				"name" => "data[Contact][name]",
+				"maxlength" => 255,
+				"type" => "text",
+				"id" => "ContactName"
+			)),
+			array("label" => array("class" => "add-on")),
+				array("input" => array(
+					"type" => "checkbox",
+					"name" => "data[Contact][confirm]",
+					"value" => "1",
+					"id" => "ContactConfirm"
+				)),
+			"/label",
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array(
+			"append" => $this->Form->checkbox("confirm", array("hiddenField" => false))
+		));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
 	
 	/**
 	 * testInputWithPrependAddon
@@ -1282,6 +1350,104 @@ class TwitterBootstrapHelperTest extends CakeTestCase {
 		);
 		$this->Form->create("Contact");
 		$input = $this->TwitterBootstrap->input("name", array("prepend" => "P"));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
+	 * testInputWithAppendInputAddon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithPrependButtonAddon() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-prepend")),
+			"button" => array("class" => "btn", "type" => "button"), "Go", "/button",
+			"input" => array(
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
+			),
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array(
+			"prepend" => $this->TwitterBootstrap->button("Go", array("type" => "button"))
+		));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
+	 * testInputWithPrependInputAddon
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithPrependInputAddon() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			array("label" => array("for" => "ContactName", "class" => "control-label")),
+				"Name",
+			"/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-prepend")),
+			array("label" => array("class" => "add-on")),
+				array("input" => array(
+					"type" => "checkbox",
+					"name" => "data[Contact][confirm]",
+					"value" => "1",
+					"id" => "ContactConfirm"
+				)),
+			"/label",
+			array("input" => array(
+				"name" => "data[Contact][name]",
+				"maxlength" => 255,
+				"type" => "text",
+				"id" => "ContactName"
+			)),
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array(
+			"prepend" => $this->Form->checkbox("confirm", array("hiddenField" => false))
+		));
+		$this->Form->end();
+		$this->assertTags($input, $expected);
+	}
+
+	/**
+	 * testInputWithBothAppendAndPrepend
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testInputWithBothAppendAndPrepend() {
+		$expected = array(
+			array("div" => array("class" => "control-group")),
+			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
+			array("div" => array("class" => "controls")),
+			array("div" => array("class" => "input-append input-prepend")),
+			array("span" => array("class" => "add-on")), "P", "/span",
+			"input" => array(
+				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
+			),
+			array("span" => array("class" => "add-on")), "A", "/span",
+			"/div",
+			"/div",
+			"/div"
+		);
+		$this->Form->create("Contact");
+		$input = $this->TwitterBootstrap->input("name", array(
+			"prepend" => "P",
+			"append" => "A"
+		));
 		$this->Form->end();
 		$this->assertTags($input, $expected);
 	}
