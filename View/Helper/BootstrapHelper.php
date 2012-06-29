@@ -10,7 +10,7 @@ class BootstrapHelper extends AppHelper {
 	 * @param string $title
 	 * @return string
 	 */
-	public function page_header($title){
+	public function pageHeader($title){
 		return $this->Html->tag(
 			"div",
 			"<h1>$title</h1>",

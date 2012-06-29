@@ -63,7 +63,7 @@ class BootstrapHelperTest extends CakeTestCase {
 			array("h1" => true), "Page Header", "/h1",
 			"/div"
 		);
-		$header = $this->Bootstrap->page_header("Page Header");
+		$header = $this->Bootstrap->pageHeader("Page Header");
 		$this->assertTags($header, $expected);
 	}
 
