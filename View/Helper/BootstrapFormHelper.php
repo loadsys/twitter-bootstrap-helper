@@ -77,7 +77,7 @@ class BootstrapFormHelper extends FormHelper {
 			$opt = $options;
 			$opt["type"] = "";
 			$input = $this->_construct_input($opt);
-			$options["label"] = $this->Form->label(
+			$options["label"] = parent::label(
 				$options["field"],
 				$input . $options["label"],
 				"checkbox"
@@ -85,13 +85,13 @@ class BootstrapFormHelper extends FormHelper {
 		} else {
 			$class = (!$basic) ? "control-label" : null;
 			if (!empty($options["label"])) {
-				$options["label"] = $this->Form->label(
+				$options["label"] = parent::label(
 					$options["field"],
 					$options["label"],
 					array("class" => $class)
 				);
 			} else {
-				$options["label"] = $this->Form->label(
+				$options["label"] = parent::label(
 					$options["field"],
 					null,
 					array("class" => $class)
@@ -113,7 +113,7 @@ class BootstrapFormHelper extends FormHelper {
 			$options["input"] = "";
 		}
 		if (isset($options["input"])) { return $options["input"]; }
-		$options["input"] = $this->Form->input($options["field"], array(
+		$options["input"] = parent::input($options["field"], array(
 			"div" => false,
 			"label" => false
 		));
@@ -188,7 +188,7 @@ class BootstrapFormHelper extends FormHelper {
 		} else {
 			$options["class"] = $class;
 		}
-		return $this->Form->text($name, $options);
+		return $this->text($name, $options);
 	}
 
 	/**
@@ -203,7 +203,7 @@ class BootstrapFormHelper extends FormHelper {
 		$options = $this->_parse_input_options($field, $options);
 		if (!isset($options['field'])) { return ''; }
 		$out = $help_inline = $help_block = '';
-		/*$model = $this->Form->defaultModel;
+		/*$model = $this->defaultModel;
 		if (strpos(".", $options["field"]) !== false) {
 			$split = explode(".", $options["field"]);
 			$model = $split[0];
@@ -213,24 +213,24 @@ class BootstrapFormHelper extends FormHelper {
 		if ($options['label'] === false) {
 			$options['label'] = '';
 		} else if (!empty($options['label'])) {
-			$options['label'] = $this->Form->label(
+			$options['label'] = $this->label(
 				$options['field'],
 				$options['label'],
 				"control-label"
 			);
 		} else {
-			$options['label'] = $this->Form->label(
+			$options['label'] = $this->label(
 				$options['field'],
 				null,
 				"control-label"
 			);
 		}
 		list($help_inline, $help_block) = $this->_help_markup($options);
-		if ($this->Form->error($options['field'])) {
+		if ($this->error($options['field'])) {
 			$options['state'] = 'error';
 			$help_block = $this->Html->tag(
 				"span",
-				$this->Form->error($options['field']),
+				$this->error($options['field']),
 				array("class" => "help-block")
 			);
 		}
@@ -272,9 +272,9 @@ class BootstrapFormHelper extends FormHelper {
 					if ($key !== 'type' || !empty($value)) $opt[$key] = $value;
 				}
 			}
-			$input = $this->Form->input($options["field"], $opt);
+			$input = parent::input($options["field"], $opt);
 			if (isset($options["checkbox_label"])) {
-				$input = $this->Form->label($options["field"], $input.' '.$options["checkbox_label"], array('class' => 'checkbox'));
+				$input = $this->label($options["field"], $input.' '.$options["checkbox_label"], array('class' => 'checkbox'));
 			}
 		}
 		foreach (array_keys($combine_markup) as $combine) {
@@ -361,7 +361,7 @@ class BootstrapFormHelper extends FormHelper {
 		$inputs = "";
 		$hiddenField = (isset($options['hiddenField']) && $options['hiddenField']);
 		foreach ($opt as $key => $val) {
-			$input = $this->Form->radio(
+			$input = $this->radio(
 				$options["field"],
 				array($key => $val),
 				array("label" => false, 'hiddenField' => $hiddenField)
@@ -395,7 +395,7 @@ class BootstrapFormHelper extends FormHelper {
 	 */
 	public function button($value = "Submit", $options = array()) {
 		$options = $this->button_options($options);
-		return $this->Form->button($value, $options);
+		return parent::button($value, $options);
 	}
 
 	/**
@@ -411,7 +411,7 @@ class BootstrapFormHelper extends FormHelper {
 	 */
 	public function button_form($title, $url, $opt = array(), $confirm = false) {
 		$opt = $this->button_options($opt);
-		return $this->Form->postLink($title, $url, $opt, $confirm);
+		return $this->postLink($title, $url, $opt, $confirm);
 	}
 
 	/**
