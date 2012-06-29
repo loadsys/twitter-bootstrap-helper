@@ -9,12 +9,12 @@ if (!defined('FULL_BASE_URL')) {
 	define('FULL_BASE_URL', 'http://cakephp.org');
 }
 
-class TestBootstrapController extends Controller {
+class TestBootstrapHtmlController extends Controller {
 	public $name = 'TestBootstrap';
 	public $uses = null;
 }
 
-class TestBootstrapHelper extends BootstrapHtmlHelper {
+class TestBootstrapHtmlHelper extends BootstrapHtmlHelper {
 	/**
 	 * expose a method as public
 	 */
@@ -47,8 +47,8 @@ class BootstrapHtmlHelperTest extends CakeTestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->View = $this->getMock('View', array('append'), array(new TestBootstrapController()));
-		$this->BootstrapHtml = new TestBootstrapHelper($this->View);
+		$this->View = $this->getMock('View', array('append'), array(new TestBootstrapHtmlController()));
+		$this->BootstrapHtml = new TestBootstrapHtmlHelper($this->View);
 		Configure::write('Asset.timestamp', false);
 	}
 
