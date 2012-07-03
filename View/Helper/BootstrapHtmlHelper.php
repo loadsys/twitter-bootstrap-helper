@@ -94,7 +94,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function buttonLink($title, $url, $opt = array(), $confirm = false) {
+	public function button($title, $url, $opt = array(), $confirm = false) {
 		$opt = $this->buttonOptions($opt);
 		return $this->link($title, $url, $opt, $confirm);
 	}
