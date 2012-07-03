@@ -22,6 +22,14 @@ class BootstrapFormHelper extends FormHelper {
 		'field'
 	);
 
+	/**
+	 * Wrapping create to allow formType option.
+	 *
+	 * @access public
+	 * @param mixed $model
+	 * @param array $opt
+	 * @return string
+	 */
 	public function create($model = null, $opt = array()) {
 		$valid = array("vertical", "inline", "search", "horizontal");
 		$klass = null;
@@ -53,6 +61,15 @@ class BootstrapFormHelper extends FormHelper {
 		return parent::button($title, $options);
 	}
 
+	/**
+	 * Passing submit options through _buttonOptions before passing along
+	 * to parent::submit()
+	 *
+	 * @access public
+	 * @param mixed $caption
+	 * @param array $options
+	 * @return string
+	 */
 	public function submit($caption = null, $options = array()) {
 		$options = $this->_buttonOptions($options);
 		return parent::submit($caption, $options);
