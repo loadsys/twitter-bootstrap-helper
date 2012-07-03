@@ -22,6 +22,16 @@ class BootstrapFormHelper extends FormHelper {
 		'field'
 	);
 
+	public function create($model = null, $options = array()) {
+		$valid = array("vertical", "inline", "search", "horizontal");
+		$class = "form-vertical";
+		if (isset($options[""]) && in_array($options[""], $valid)) {
+			$class = "form-{$options[""]}";
+		}
+		$options["class"] = isset($options["class"]) ? $options["class"] . " {$class}" : $class;
+		return parent::create($model, $options);
+	}
+
 	/**
 	 * basic_input
 	 *
