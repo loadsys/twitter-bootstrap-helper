@@ -30,7 +30,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function basic_input($field, $options = array()) {
+	public function basicInput($field, $options = array()) {
 		$options = $this->_parse_input_options($field, $options);
 		if (!isset($options["field"])) { return ""; }
 		$options["label"] = $this->_construct_label($options);
@@ -46,7 +46,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _parse_input_options($field, $options = array()) {
+	public function _parseInputOptions($field, $options = array()) {
 		if (is_array($field)) {
 			$options = $field;
 		} else {
@@ -71,7 +71,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _construct_label($options, $basic = true) {
+	public function _constructLabel($options, $basic = true) {
 		if ($options["label"] === false) { return ""; }
 		if (in_array($options["type"], array("checkbox"))) {
 			$opt = $options;
@@ -108,7 +108,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _construct_input($options) {
+	public function _constructInput($options) {
 		if (in_array($options["type"], array("checkbox"))) {
 			$options["input"] = "";
 		}
@@ -127,7 +127,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _constuct_input_and_addon($options) {
+	public function _constuctInputAndAddon($options) {
 		if (isset($options["input"])) { return $options["input"]; }
 		$options["input"] = $this->_construct_input($options);
 		$options["input"] = $this->_handle_input_addon($options);
@@ -141,7 +141,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _handle_input_addon($options) {
+	public function _handleInputAddon($options) {
 		$input = $options["input"];
 		if ($options["append"]) {
 			$input = $this->input_addon($options["append"], $input, "append");
@@ -160,7 +160,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function input_addon($content, $input, $type = "append") {
+	public function inputAddon($content, $input, $type = "append") {
 		$tag = (strpos("input", $content) !== false) ? "label" : "span";
 		$addon = $this->Html->tag($tag, $content, array("class" => "add-on"));
 		return $this->Html->tag(
@@ -260,7 +260,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function _combine_input($options) {
+	public function _combineInput($options) {
 		$combine_markup = array("append" => "", "prepend" => "");
 		$input = "";
 		if (isset($options["input"])) {
@@ -324,7 +324,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function _help_markup($options) {
+	public function _helpMarkup($options) {
 		$help_markup = array("help_inline" => "", "help_block" => "");
 		foreach (array_keys($help_markup) as $help) {
 			if (isset($options[$help]) && !empty($options[$help])) {
@@ -409,7 +409,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function button_form($title, $url, $opt = array(), $confirm = false) {
+	public function buttonForm($title, $url, $opt = array(), $confirm = false) {
 		$opt = $this->button_options($opt);
 		return $this->postLink($title, $url, $opt, $confirm);
 	}
@@ -422,7 +422,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function button_options($options) {
+	public function buttonOptions($options) {
 		$valid_styles = array(
 			"danger", "info", "primary",
 			"warning", "success", "inverse"
