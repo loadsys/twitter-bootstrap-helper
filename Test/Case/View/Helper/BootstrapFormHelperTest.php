@@ -155,7 +155,7 @@ class BootstrapFormHelperTest extends CakeTestCase {
 	public function testValidDisabledButton() {
 		$expected = $this->validButton;
 		$disabled = $this->BootstrapForm->button("Submit", array("disabled" => true));
-		$this->assertEquals(sprintf($expected, " btn-disabled"), $disabled);
+		$this->assertEquals(sprintf($expected, " disabled"), $disabled);
 	}
 
 	/**

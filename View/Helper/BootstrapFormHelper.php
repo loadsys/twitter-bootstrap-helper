@@ -441,7 +441,7 @@ class BootstrapFormHelper extends FormHelper {
 		if (!empty($size) && in_array($size, $valid_sizes)) {
 			$class .= " btn-{$size}";
 		}
-		if ($disabled) { $class .= " btn-disabled"; }
+		if ($disabled) { $class .= " disabled"; }
 		unset($options["style"]);
 		unset($options["size"]);
 		unset($options["disabled"]);
