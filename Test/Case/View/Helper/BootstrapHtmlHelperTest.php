@@ -459,7 +459,7 @@ class BootstrapHtmlHelperTest extends CakeTestCase {
 			"/home",
 			array("style" => "info", "size" => "small", "disabled" => true)
 		);
-		$expected["a"]["class"] = 'preg:/btn btn-info btn-small btn-disabled/';
+		$expected["a"]["class"] = 'preg:/btn btn-info btn-small disabled/';
 		$this->assertTags($result, $expected);
 	}
 

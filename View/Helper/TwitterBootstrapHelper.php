@@ -9,31 +9,31 @@ class TwitterBootstrapHelper extends AppHelper {
 	);
 
 	public function basic_input($field, $options = array()) {
-		return $this->BootstrapForm->basic_input($field, $options);
+		return $this->BootstrapForm->basicInput($field, $options);
 	}
 
 	public function _parse_input_options($field, $options = array()) {
-		return $this->BootstrapForm->_parse_input_options($field, $options);
+		return $this->BootstrapForm->_parseInputOptions($field, $options);
 	}
 
 	public function _construct_label($options, $basic = true) {
-		return $this->BootstrapForm->_construct_label($options, $basic);
+		return $this->BootstrapForm->_constructLabel($options, $basic);
 	}
 
 	public function _construct_input($options) {
-		return $this->BootstrapForm->_construct_input($options);
+		return $this->BootstrapForm->_constructInput($options);
 	}
 
 	public function _constuct_input_and_addon($options) {
-		return $this->BootstrapForm->_constuct_input_and_addon($options);
+		return $this->BootstrapForm->_constuctInputAndAddon($options);
 	}
 
 	public function _handle_input_addon($options) {
-		return $this->BootstrapForm->_handle_input_addon($options);
+		return $this->BootstrapForm->_handleInputAddon($options);
 	}
 
 	public function input_addon($content, $input, $type = "append") {
-		return $this->BootstrapForm->input_addon($content, $input, $type);
+		return $this->BootstrapForm->inputAddon($content, $input, $type);
 	}
 
 	public function search($name = null, $options = array()) {
@@ -45,11 +45,11 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	public function _combine_input($options) {
-		return $this->BootstrapForm->_combine_input($options);
+		return $this->BootstrapForm->_combineInput($options);
 	}
 
 	public function _help_markup($options) {
-		return $this->BootstrapForm->_help_markup($options);
+		return $this->BootstrapForm->_helpMarkup($options);
 	}
 
 	public function radio($field, $options = array()) {
@@ -73,7 +73,7 @@ class TwitterBootstrapHelper extends AppHelper {
 	}
 
 	public function button_options($options) {
-		return $this->BootstrapForm->button_options($options);
+		return $this->BootstrapForm->buttonOptions($options);
 	}
 
 	public function breadcrumbs($options = array()) {

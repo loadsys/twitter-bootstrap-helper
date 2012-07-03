@@ -53,10 +53,6 @@ class TestBootstrapFormHelper extends BootstrapFormHelper {
 		}
 		return $this->{$attribute};
 	}
-
-	public function _flash_content($key) {
-		return "Flash content";
-	}
 }
 
 /**
@@ -159,7 +155,7 @@ class BootstrapFormHelperTest extends CakeTestCase {
 	public function testValidDisabledButton() {
 		$expected = $this->validButton;
 		$disabled = $this->BootstrapForm->button("Submit", array("disabled" => true));
-		$this->assertEquals(sprintf($expected, " btn-disabled"), $disabled);
+		$this->assertEquals(sprintf($expected, " disabled"), $disabled);
 	}
 
 	/**
@@ -201,11 +197,11 @@ class BootstrapFormHelperTest extends CakeTestCase {
 			'/a'
 		);
 
-		$result = $this->BootstrapForm->button_form("Link Text", "/home");
+		$result = $this->BootstrapForm->buttonForm("Link Text", "/home");
 		$this->assertTags($result, $expected);
 
 		$expected['a']['class'] = 'preg:/btn btn-small/';
-		$result = $this->BootstrapForm->button_form(
+		$result = $this->BootstrapForm->buttonForm(
 			"Link Text",
 			"/home",
 			array("size" => "small")
@@ -213,7 +209,7 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$expected['a']['class'] = 'preg:/btn btn-danger/';
-		$result = $this->BootstrapForm->button_form(
+		$result = $this->BootstrapForm->buttonForm(
 			"Link Text",
 			"/home",
 			array("style" => "danger")
@@ -221,7 +217,7 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 
 		$expected['a']['class'] = 'preg:/btn btn-success btn-large/';
-		$result = $this->BootstrapForm->button_form(
+		$result = $this->BootstrapForm->buttonForm(
 			"Link Text",
 			"/home",
 			array("style" => "success", "size" => "large")

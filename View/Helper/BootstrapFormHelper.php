@@ -30,11 +30,11 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function basic_input($field, $options = array()) {
-		$options = $this->_parse_input_options($field, $options);
+	public function basicInput($field, $options = array()) {
+		$options = $this->_parseInputOptions($field, $options);
 		if (!isset($options["field"])) { return ""; }
-		$options["label"] = $this->_construct_label($options);
-		$options["input"] = $this->_construct_input($options);
+		$options["label"] = $this->_constructLabel($options);
+		$options["input"] = $this->_constructInput($options);
 		return $options["label"] . $options["input"];
 	}
 
@@ -46,7 +46,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _parse_input_options($field, $options = array()) {
+	public function _parseInputOptions($field, $options = array()) {
 		if (is_array($field)) {
 			$options = $field;
 		} else {
@@ -71,12 +71,12 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _construct_label($options, $basic = true) {
+	public function _constructLabel($options, $basic = true) {
 		if ($options["label"] === false) { return ""; }
 		if (in_array($options["type"], array("checkbox"))) {
 			$opt = $options;
 			$opt["type"] = "";
-			$input = $this->_construct_input($opt);
+			$input = $this->_constructInput($opt);
 			$options["label"] = parent::label(
 				$options["field"],
 				$input . $options["label"],
@@ -108,7 +108,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _construct_input($options) {
+	public function _constructInput($options) {
 		if (in_array($options["type"], array("checkbox"))) {
 			$options["input"] = "";
 		}
@@ -127,10 +127,10 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _constuct_input_and_addon($options) {
+	public function _constuctInputAndAddon($options) {
 		if (isset($options["input"])) { return $options["input"]; }
-		$options["input"] = $this->_construct_input($options);
-		$options["input"] = $this->_handle_input_addon($options);
+		$options["input"] = $this->_constructInput($options);
+		$options["input"] = $this->_handleInputAddon($options);
 		return $options["input"];
 	}
 
@@ -141,12 +141,12 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function _handle_input_addon($options) {
+	public function _handleInputAddon($options) {
 		$input = $options["input"];
 		if ($options["append"]) {
-			$input = $this->input_addon($options["append"], $input, "append");
+			$input = $this->inputAddon($options["append"], $input, "append");
 		} elseif ($options["prepend"]) {
-			$input = $this->input_addon($options["prepend"], $input, "prepend");
+			$input = $this->inputAddon($options["prepend"], $input, "prepend");
 		}
 		return $input;
 	}
@@ -160,7 +160,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function input_addon($content, $input, $type = "append") {
+	public function inputAddon($content, $input, $type = "append") {
 		$tag = (strpos("input", $content) !== false) ? "label" : "span";
 		$addon = $this->Html->tag($tag, $content, array("class" => "add-on"));
 		return $this->Html->tag(
@@ -200,7 +200,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @return string
 	 */
 	public function input($field, $options = array()) {
-		$options = $this->_parse_input_options($field, $options);
+		$options = $this->_parseInputOptions($field, $options);
 		if (!isset($options['field'])) { return ''; }
 		$out = $help_inline = $help_block = '';
 		/*$model = $this->defaultModel;
@@ -225,7 +225,7 @@ class BootstrapFormHelper extends FormHelper {
 				"control-label"
 			);
 		}
-		list($help_inline, $help_block) = $this->_help_markup($options);
+		list($help_inline, $help_block) = $this->_helpMarkup($options);
 		if ($this->error($options['field'])) {
 			$options['state'] = 'error';
 			$help_block = $this->Html->tag(
@@ -234,7 +234,7 @@ class BootstrapFormHelper extends FormHelper {
 				array("class" => "help-block")
 			);
 		}
-		$options["input"] = $this->_combine_input($options);
+		$options["input"] = $this->_combineInput($options);
 		$input = $this->Html->tag(
 			"div",
 			$options['input'].$help_inline.$help_block,
@@ -260,7 +260,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function _combine_input($options) {
+	public function _combineInput($options) {
 		$combine_markup = array("append" => "", "prepend" => "");
 		$input = "";
 		if (isset($options["input"])) {
@@ -324,7 +324,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function _help_markup($options) {
+	public function _helpMarkup($options) {
 		$help_markup = array("help_inline" => "", "help_block" => "");
 		foreach (array_keys($help_markup) as $help) {
 			if (isset($options[$help]) && !empty($options[$help])) {
@@ -394,7 +394,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @return string
 	 */
 	public function button($value = "Submit", $options = array()) {
-		$options = $this->button_options($options);
+		$options = $this->buttonOptions($options);
 		return parent::button($value, $options);
 	}
 
@@ -409,8 +409,8 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function button_form($title, $url, $opt = array(), $confirm = false) {
-		$opt = $this->button_options($opt);
+	public function buttonForm($title, $url, $opt = array(), $confirm = false) {
+		$opt = $this->buttonOptions($opt);
 		return $this->postLink($title, $url, $opt, $confirm);
 	}
 
@@ -422,7 +422,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @access public
 	 * @return string
 	 */
-	public function button_options($options) {
+	public function buttonOptions($options) {
 		$valid_styles = array(
 			"danger", "info", "primary",
 			"warning", "success", "inverse"
@@ -441,7 +441,7 @@ class BootstrapFormHelper extends FormHelper {
 		if (!empty($size) && in_array($size, $valid_sizes)) {
 			$class .= " btn-{$size}";
 		}
-		if ($disabled) { $class .= " btn-disabled"; }
+		if ($disabled) { $class .= " disabled"; }
 		unset($options["style"]);
 		unset($options["size"]);
 		unset($options["disabled"]);
