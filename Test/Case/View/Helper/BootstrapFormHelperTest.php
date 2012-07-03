@@ -234,4 +234,59 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 	}
 
+	public function testValidSubmit() {
+		$expected = array(
+			"div" => array("class" => "submit"),
+			"input" => array("type" => "submit", "value" => "Submit", "class" => "btn"),
+			"/div"
+		);
+		// Default button
+		$default = $this->BootstrapForm->submit("Submit");
+		$this->assertTags($default, $expected);
+		// Primary button
+		$primary = $this->BootstrapForm->submit("Submit", array("style" => "primary"));
+		$expected["input"]["class"] = "btn btn-primary";
+		$this->assertTags($primary, $expected);
+		// Info button
+		$info = $this->BootstrapForm->submit("Submit", array("style" => "info"));
+		$expected["input"]["class"] = "btn btn-info";
+		$this->assertTags($info, $expected);
+		// Success button
+		$success = $this->BootstrapForm->submit("Submit", array("style" => "success"));
+		$expected["input"]["class"] = "btn btn-success";
+		$this->assertTags($success, $expected);
+		// Warning button
+		$warning = $this->BootstrapForm->submit("Submit", array("style" => "warning"));
+		$expected["input"]["class"] = "btn btn-warning";
+		$this->assertTags($warning, $expected);
+		// Danger button
+		$danger = $this->BootstrapForm->submit("Submit", array("style" => "danger"));
+		$expected["input"]["class"] = "btn btn-danger";
+		$this->assertTags($danger, $expected);
+		// Inverse button
+		$inverse = $this->BootstrapForm->submit("Submit", array("style" => "inverse"));
+		$expected["input"]["class"] = "btn btn-inverse";
+		$this->assertTags($inverse, $expected);
+
+		// Mini button
+		$mini = $this->BootstrapForm->submit("Submit", array("size" => "mini"));
+		$expected["input"]["class"] = "btn btn-mini";
+		$this->assertTags($mini, $expected);
+		// Small button
+		$small = $this->BootstrapForm->submit("Submit", array("size" => "small"));
+		$expected["input"]["class"] = "btn btn-small";
+		$this->assertTags($small, $expected);
+		// Large button
+		$large = $this->BootstrapForm->submit("Submit", array("size" => "large"));
+		$expected["input"]["class"] = "btn btn-large";
+		$this->assertTags($large, $expected);
+		// Mixed button
+		$expected["input"]["class"] = "btn btn-primary btn-small";
+		$mixed = $this->BootstrapForm->submit(
+			"Submit",
+			array("style" => "primary", "size" => "small")
+		);
+		$this->assertTags($mixed, $expected);
+	}
+
 }

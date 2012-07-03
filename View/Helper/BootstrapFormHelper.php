@@ -53,6 +53,11 @@ class BootstrapFormHelper extends FormHelper {
 		return parent::button($title, $options);
 	}
 
+	public function submit($caption = null, $options = array()) {
+		$options = $this->_buttonOptions($options);
+		return parent::submit($caption, $options);
+	}
+
 	/**
 	 * Takes the array of options from $this->button or $this->button_link
 	 * and returns the modified array with the bootstrap classes
