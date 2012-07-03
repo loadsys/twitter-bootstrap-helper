@@ -58,11 +58,10 @@ class BootstrapFormHelper extends FormHelper {
 	 * and returns the modified array with the bootstrap classes
 	 *
 	 * @param mixed $options
-	 * @access public
+	 * @access protected
 	 * @return string
 	 */
 	protected function _buttonOptions($options) {
-		debug($options);
 		$valid_styles = array(
 			"danger", "info", "primary",
 			"warning", "success", "inverse"

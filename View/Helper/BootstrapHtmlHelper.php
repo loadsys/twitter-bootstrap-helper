@@ -16,7 +16,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
 	public function buttonDropdown($value = "", $options = array()) {
 		$_links = isset($options["links"]) ? $options["links"] : array();
 		$split = isset($options["split"]) ? (bool)$options["split"] : false;
-		$options = $this->buttonOptions($options);
+		$options = $this->_buttonOptions($options);
 		$links = "";
 		foreach ($_links as $link) {
 			if (is_array($link)) {
@@ -95,7 +95,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
 	 * @return string
 	 */
 	public function button($title, $url, $opt = array(), $confirm = false) {
-		$opt = $this->buttonOptions($opt);
+		$opt = $this->_buttonOptions($opt);
 		return $this->link($title, $url, $opt, $confirm);
 	}
 
@@ -104,10 +104,10 @@ class BootstrapHtmlHelper extends HtmlHelper {
 	 * and returns the modified array with the bootstrap classes
 	 *
 	 * @param mixed $options
-	 * @access public
+	 * @access protected
 	 * @return string
 	 */
-	public function buttonOptions($options) {
+	protected function _buttonOptions($options) {
 		$valid_styles = array(
 			"danger", "info", "primary",
 			"warning", "success", "inverse"
