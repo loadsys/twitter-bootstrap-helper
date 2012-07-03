@@ -54,22 +54,6 @@ class BootstrapFormHelper extends FormHelper {
 	}
 
 	/**
-	 * Wraps the postButton method to create post links that use the bootstrap
-	 * button styles.
-	 *
-	 * @param mixed $title
-	 * @param mixed $url
-	 * @param array $options
-	 * @param mixed $confirm
-	 * @access public
-	 * @return string
-	 */
-	public function postButton($title, $url, $options = array()) {
-		// $options = $this->_buttonOptions($options);
-		return parent::postButton($title, $url, $options);
-	}
-
-	/**
 	 * Takes the array of options from $this->button or $this->button_link
 	 * and returns the modified array with the bootstrap classes
 	 *
