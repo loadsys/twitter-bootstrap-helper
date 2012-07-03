@@ -90,12 +90,45 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		unset($this->Bootstrap, $this->View);
 	}
 
-	/**
-	 * testValidButtonStyles
-	 *
-	 * @access public
-	 * @return void
-	 */
+	public function testCreate() {
+		$expected = array(
+			"form" => array(
+				"action" => "/contacts/add",
+				"id" => "ContactAddForm",
+				"method" => "post",
+				"accept-charset" => "utf-8"
+			),
+			"div" => array("style" => "display:none;"),
+			"input" => array("type" => "hidden", "name" => "_method", "value" => "POST"),
+			"/div"
+		);
+		$form = $this->BootstrapForm->create("Contact");
+		$this->assertTags($form, $expected);
+
+		$expected["form"]["class"] = "form-vertical";
+		$form = $this->BootstrapForm->create("Contact", array("formType" => "vertical"));
+		$this->assertTags($form, $expected);
+
+		$expected["form"]["class"] = "some-class form-vertical";
+		$form = $this->BootstrapForm->create("Contact", array(
+			"class"    => "some-class",
+			"formType" => "vertical"
+		));
+		$this->assertTags($form, $expected);
+
+		$expected["form"]["class"] = "form-inline";
+		$form = $this->BootstrapForm->create("Contact", array("formType" => "inline"));
+		$this->assertTags($form, $expected);
+
+		$expected["form"]["class"] = "form-search";
+		$form = $this->BootstrapForm->create("Contact", array("formType" => "search"));
+		$this->assertTags($form, $expected);
+
+		$expected["form"]["class"] = "form-horizontal";
+		$form = $this->BootstrapForm->create("Contact", array("formType" => "horizontal"));
+		$this->assertTags($form, $expected);
+	}
+
 	public function testValidButtonStyles() {
 		$expected = $this->validButton;
 		// Default button
@@ -121,12 +154,6 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertEquals(sprintf($expected, " btn-inverse"), $danger);
 	}
 
-	/**
-	 * testValidButtonSizes
-	 *
-	 * @access public
-	 * @return void
-	 */
 	public function testValidButtonSizes() {
 		$expected = $this->validButton;
 		// Mini button
@@ -146,24 +173,12 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertEquals(sprintf($expected, " btn-primary btn-small"), $mixed);
 	}
 
-	/**
-	 * testValidDisabledButton
-	 *
-	 * @access public
-	 * @return void
-	 */
 	public function testValidDisabledButton() {
 		$expected = $this->validButton;
 		$disabled = $this->BootstrapForm->button("Submit", array("disabled" => true));
 		$this->assertEquals(sprintf($expected, " disabled"), $disabled);
 	}
 
-	/**
-	 * testInvalidButtonStylesAndSizes
-	 *
-	 * @access public
-	 * @return void
-	 */
 	public function testInvalidButtonStylesAndSizes() {
 		$expected = $this->validButton;
 		// Invalid size button
@@ -174,50 +189,44 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertEquals(sprintf($expected, ""), $invalid_style);
 	}
 
-	/**
-	 * testValidButtonForm
-	 *
-	 * @access public
-	 * @return void
-	 */
 	public function testValidButtonForm() {
 		$expected = array(
 			'form' => array(
-				'method' => 'post', 'action', 'name' => 'preg:/post_\w+/',
-				'id' => 'preg:/post_\w+/', 'style' => 'display:none;'
+				'method' => 'post',
+				'action' => "/home",
+				'style' => 'display:none;',
+				'accept-charset' => 'utf-8'
 			),
+			'div' => array("style" => "display:none;"),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
-			'/form',
-			'a' => array(
-				'href' => '#',
-				'onclick' => 'preg:/document\.(.)+\.submit\(\); event\.returnValue = false; return false;/',
-				'class' => 'preg:/btn/'
-			),
+			"/div",
+			'button' => array('class' => 'preg:/btn/', 'type' => 'submit'),
 			'Link Text',
-			'/a'
+			'/button',
+			'/form'
 		);
 
-		$result = $this->BootstrapForm->buttonForm("Link Text", "/home");
+		$result = $this->BootstrapForm->postButton("Link Text", "/home");
 		$this->assertTags($result, $expected);
 
-		$expected['a']['class'] = 'preg:/btn btn-small/';
-		$result = $this->BootstrapForm->buttonForm(
+		$expected['button']['class'] = 'preg:/btn btn-small/';
+		$result = $this->BootstrapForm->postButton(
 			"Link Text",
 			"/home",
 			array("size" => "small")
 		);
 		$this->assertTags($result, $expected);
 
-		$expected['a']['class'] = 'preg:/btn btn-danger/';
-		$result = $this->BootstrapForm->buttonForm(
+		$expected['button']['class'] = 'preg:/btn btn-danger/';
+		$result = $this->BootstrapForm->postButton(
 			"Link Text",
 			"/home",
 			array("style" => "danger")
 		);
 		$this->assertTags($result, $expected);
 
-		$expected['a']['class'] = 'preg:/btn btn-success btn-large/';
-		$result = $this->BootstrapForm->buttonForm(
+		$expected['button']['class'] = 'preg:/btn btn-success btn-large/';
+		$result = $this->BootstrapForm->postButton(
 			"Link Text",
 			"/home",
 			array("style" => "success", "size" => "large")
@@ -225,326 +234,4 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 	}
 
-	/**
-	 * testInputWithOnlyField
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithOnlyField() {
-		$expected = array(
-			array('div' => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name");
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithInputClassDefined
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithInputClassDefined() {
-		$expected = array(
-			array('div' => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			"input" => array(
-				"name" => "data[Contact][name]",
-				"maxlength" => 255,
-				"type" => "text",
-				"id" => "ContactName",
-				"class" => "custom-class"
-			),
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array("class" => "custom-class"));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithOnlyFieldAndInput
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithOnlyFieldAndInput() {
-		$expected = array(
-			array('div' => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			"input" => array(
-				"name" => "data[Contact][name]", "type" => "text", "id" => "ContactName"
-			),
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array(
-			"input" => $this->BootstrapForm->text("name")
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input(array(
-			"field" => "name",
-			"input" => $this->BootstrapForm->text("name")
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithDefinedLabel
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithDefinedLabel() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Contact Name", "/label",
-			array("div" => array("class" => "controls")),
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array("label" => "Contact Name"));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithAppendAddon
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithAppendAddon() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-append")),
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			"span" => array("class" => "add-on"), "A", "/span",
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array("append" => "A"));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithAppendButtonAddon
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithAppendButtonAddon() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-append")),
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			"button" => array("class" => "btn", "type" => "button"), "Go", "/button",
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array(
-			"append" => $this->BootstrapForm->button("Go", array("type" => "button"))
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithAppendInputAddon
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithAppendInputAddon() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			array("label" => array("for" => "ContactName", "class" => "control-label")),
-				"Name",
-			"/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-append")),
-			array("input" => array(
-				"name" => "data[Contact][name]",
-				"maxlength" => 255,
-				"type" => "text",
-				"id" => "ContactName"
-			)),
-			array("label" => array("class" => "add-on")),
-				array("input" => array(
-					"type" => "checkbox",
-					"name" => "data[Contact][confirm]",
-					"value" => "1",
-					"id" => "ContactConfirm"
-				)),
-			"/label",
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array(
-			"append" => $this->BootstrapForm->checkbox("confirm", array("hiddenField" => false))
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithPrependAddon
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithPrependAddon() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-prepend")),
-			"span" => array("class" => "add-on"), "P", "/span",
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array("prepend" => "P"));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithAppendInputAddon
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithPrependButtonAddon() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-prepend")),
-			"button" => array("class" => "btn", "type" => "button"), "Go", "/button",
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array(
-			"prepend" => $this->BootstrapForm->button("Go", array("type" => "button"))
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithPrependInputAddon
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithPrependInputAddon() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			array("label" => array("for" => "ContactName", "class" => "control-label")),
-				"Name",
-			"/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-prepend")),
-			array("label" => array("class" => "add-on")),
-				array("input" => array(
-					"type" => "checkbox",
-					"name" => "data[Contact][confirm]",
-					"value" => "1",
-					"id" => "ContactConfirm"
-				)),
-			"/label",
-			array("input" => array(
-				"name" => "data[Contact][name]",
-				"maxlength" => 255,
-				"type" => "text",
-				"id" => "ContactName"
-			)),
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array(
-			"prepend" => $this->BootstrapForm->checkbox("confirm", array("hiddenField" => false))
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
-
-	/**
-	 * testInputWithBothAppendAndPrepend
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function testInputWithBothAppendAndPrepend() {
-		$expected = array(
-			array("div" => array("class" => "control-group")),
-			"label" => array("for" => "ContactName", "class" => "control-label"), "Name", "/label",
-			array("div" => array("class" => "controls")),
-			array("div" => array("class" => "input-append input-prepend")),
-			array("span" => array("class" => "add-on")), "P", "/span",
-			"input" => array(
-				"name" => "data[Contact][name]", "maxlength" => 255, "type" => "text", "id" => "ContactName"
-			),
-			array("span" => array("class" => "add-on")), "A", "/span",
-			"/div",
-			"/div",
-			"/div"
-		);
-		$this->BootstrapForm->create("Contact");
-		$input = $this->BootstrapForm->input("name", array(
-			"prepend" => "P",
-			"append" => "A"
-		));
-		$this->BootstrapForm->end();
-		$this->assertTags($input, $expected);
-	}
 }
