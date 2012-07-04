@@ -361,7 +361,7 @@ class BootstrapFormHelper extends FormHelper {
 		$inputs = "";
 		$hiddenField = (isset($options['hiddenField']) && $options['hiddenField']);
 		foreach ($opt as $key => $val) {
-			$input = $this->radio(
+			$input = parent::radio(
 				$options["field"],
 				array($key => $val),
 				array("label" => false, 'hiddenField' => $hiddenField)
