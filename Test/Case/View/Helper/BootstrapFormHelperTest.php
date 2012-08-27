@@ -250,4 +250,108 @@ class BootstrapFormHelperTest extends CakeTestCase {
 		$this->assertTags($mixed, $expected);
 	}
 
+	public function testButton() {
+
+	}
+
+	public function testCheckbox() {
+
+	}
+
+	public function testDateTime() {
+
+	}
+
+	public function testDay() {
+
+	}
+
+	public function testEnd() {
+
+	}
+
+	public function testError() {
+
+	}
+
+	public function testFile() {
+
+	}
+
+	public function testHidden() {
+
+	}
+
+	public function testHour() {
+
+	}
+
+	public function testInput() {
+
+	}
+
+	public function testInputs() {
+
+	}
+
+	public function testIsFieldError() {
+
+	}
+
+	public function testLabel() {
+
+	}
+
+	public function testMeridan() {
+
+	}
+
+	public function testMinute() {
+
+	}
+
+	public function testMonth() {
+
+	}
+
+	public function testPostButton() {
+
+	}
+
+	public function testPostLink() {
+
+	}
+
+	public function testRadio() {
+
+	}
+
+	public function testSecure() {
+
+	}
+
+	public function testSelect() {
+
+	}
+
+	public function testSubmit() {
+
+	}
+
+	public function testTagsInvaild() {
+
+	}
+
+	public function testTextarea() {
+
+	}
+
+	public function testUnlockField() {
+
+	}
+
+	public function testYear() {
+
+	}
+
 }
