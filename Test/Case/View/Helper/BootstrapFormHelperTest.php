@@ -65,10 +65,6 @@ class BootstrapFormHelperTest extends CakeTestCase {
 	public $BootstrapForm;
 	public $View;
 
-	public $validLabel = '<span class="label%s">Message</span>';
-
-	public $validButton = '<button class="btn%s" type="submit">Submit</button>';
-
 	public function setUp() {
 		parent::setUp();
 		$this->View = $this->getMock('View', array('addScript'), array(new TestBootstrapFormController()));
@@ -87,7 +83,7 @@ class BootstrapFormHelperTest extends CakeTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-		unset($this->Bootstrap, $this->View);
+		unset($this->BootstrapForm, $this->View);
 	}
 
 	public function testCreate() {
@@ -130,38 +126,61 @@ class BootstrapFormHelperTest extends CakeTestCase {
 	}
 
 	public function testValidButtonStyles() {
-		$expected = $this->validButton;
+		$expected = array(
+			'button' => array('class' => 'btn', 'type' => 'submit'),
+			'Submit',
+			'/button'
+		);
 		$default = $this->BootstrapForm->button("Submit");
-		$this->assertEquals(sprintf($expected, ""), $default);
+		$this->assertTags($default, $expected);
 		$primary = $this->BootstrapForm->button("Submit", array("style" => "primary"));
-		$this->assertEquals(sprintf($expected, " btn-primary"), $primary);
+		$expected['button']['class'] = 'btn btn-primary';
+		$this->assertTags($primary, $expected);
 	}
 
 	public function testValidButtonSizes() {
-		$expected = $this->validButton;
+		$expected = array(
+			'button' => array('class' => 'btn btn-mini', 'type' => 'submit'),
+			'Submit',
+			'/button'
+		);
 		$mini = $this->BootstrapForm->button("Submit", array("size" => "mini"));
-		$this->assertEquals(sprintf($expected, " btn-mini"), $mini);
+		$this->assertTags($mini, $expected);
+	}
+
+	public function testValidButtonStylesAndSizes() {
+		$expected = array(
+			'button' => array('class' => 'btn btn-small btn-primary', 'type' => 'submit'),
+			'Submit',
+			'/button'
+		);
 		$mixed = $this->BootstrapForm->button(
 			"Submit",
 			array("style" => "primary", "size" => "small")
 		);
-		$this->assertEquals(sprintf($expected, " btn-small btn-primary"), $mixed);
+		$this->assertTags($mixed, $expected);
 	}
 
 	public function testValidDisabledButton() {
-		$expected = $this->validButton;
+		$expected = array(
+			'button' => array('class' => 'btn disabled', 'type' => 'submit'),
+			'Submit',
+			'/button'
+		);
 		$disabled = $this->BootstrapForm->button("Submit", array("disabled" => true));
-		$this->assertEquals(sprintf($expected, " disabled"), $disabled);
+		$this->assertTags($disabled, $expected);
 	}
 
 	public function testInvalidButtonStylesAndSizes() {
-		$expected = $this->validButton;
-		// Invalid size button
+		$expected = array(
+			'button' => array('class' => 'btn', 'type' => 'submit'),
+			'Submit',
+			'/button'
+		);
 		$invalid_size = $this->BootstrapForm->button("Submit", array("size" => "invalid"));
-		$this->assertEquals(sprintf($expected, ""), $invalid_size);
-		// Invalid style button
+		$this->assertTags($invalid_size, $expected);
 		$invalid_style = $this->BootstrapForm->button("Submit", array("style" => "invalid"));
-		$this->assertEquals(sprintf($expected, ""), $invalid_style);
+		$this->assertTags($invalid_style, $expected);
 	}
 
 	public function testValidButtonForm() {

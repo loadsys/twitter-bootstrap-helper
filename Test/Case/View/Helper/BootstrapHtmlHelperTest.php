@@ -10,7 +10,7 @@ if (!defined('FULL_BASE_URL')) {
 }
 
 class TestBootstrapHtmlController extends Controller {
-	public $name = 'TestBootstrap';
+	public $name = 'TestBootstrapHtml';
 	public $uses = null;
 }
 
@@ -54,7 +54,7 @@ class BootstrapHtmlHelperTest extends CakeTestCase {
 
 	public function tearDown() {
 		parent::tearDown();
-		unset($this->Bootstrap, $this->View);
+		unset($this->BootstrapHtml, $this->View);
 	}
 
 	public function testButtonDropDownMenus() {
