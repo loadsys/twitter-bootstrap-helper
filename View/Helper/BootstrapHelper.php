@@ -4,8 +4,6 @@ require_once(dirname(__FILE__) . '/../../Lib/BootstrapInfo.php');
 
 class BootstrapHelper extends AppHelper {
 
-	public $bootstrapInfo = null;
-
 	public $helpers = array("Html", "Session");
 
 	public function __construct(View $View, $settings = array()) {

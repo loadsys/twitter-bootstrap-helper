@@ -1,6 +1,7 @@
 <?php
 
 App::uses("FormHelper", "View/Helper");
+require_once(dirname(__FILE__) . '/../../Lib/BootstrapInfo.php');
 
 class BootstrapFormHelper extends FormHelper {
 
@@ -21,6 +22,11 @@ class BootstrapFormHelper extends FormHelper {
 		'prepend',
 		'field'
 	);
+
+	public function __construct(View $View, $options = array()) {
+		parent::__construct($View, $options);
+		$this->BootstrapInfo = new BootstrapInfo();
+	}
 
 	/**
 	 * Wrapping create to allow formType option.
@@ -57,7 +63,7 @@ class BootstrapFormHelper extends FormHelper {
 	 * @return string
 	 */
 	public function button($title, $options = array()) {
-		$options = $this->_buttonOptions($options);
+		$options = $this->BootstrapInfo->button($options);
 		return parent::button($title, $options);
 	}
 
@@ -71,47 +77,8 @@ class BootstrapFormHelper extends FormHelper {
 	 * @return string
 	 */
 	public function submit($caption = null, $options = array()) {
-		$options = $this->_buttonOptions($options);
+		$options = $this->BootstrapInfo->button($options);
 		return parent::submit($caption, $options);
-	}
-
-	/**
-	 * Takes the array of options from $this->button or $this->button_link
-	 * and returns the modified array with the bootstrap classes
-	 *
-	 * @param mixed $options
-	 * @access protected
-	 * @return string
-	 */
-	protected function _buttonOptions($options) {
-		$valid_styles = array(
-			"danger", "info", "primary",
-			"warning", "success", "inverse"
-		);
-		$valid_sizes = array("mini", "small", "large");
-		$style = isset($options["style"]) ? $options["style"] : "";
-		$size = isset($options["size"]) ? $options["size"] : "";
-		$disabled = false;
-		if (isset($options["disabled"])) {
-			$disabled = (bool)$options["disabled"];
-		}
-		$class = "btn";
-		if (!empty($style) && in_array($style, $valid_styles)) {
-			$class .= " btn-{$style}";
-		}
-		if (!empty($size) && in_array($size, $valid_sizes)) {
-			$class .= " btn-{$size}";
-		}
-		if ($disabled) { $class .= " disabled"; }
-		unset($options["style"]);
-		unset($options["size"]);
-		unset($options["disabled"]);
-		if (isset($options["class"])) {
-			$options["class"] = $options["class"] . " " . $class;
-		} else {
-			$options["class"] = $class;
-		}
-		return $options;
 	}
 
 }

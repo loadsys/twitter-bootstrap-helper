@@ -92,7 +92,7 @@ class BootstrapInfo {
 		return $this->_filter($str);
 	}
 
-	public function progress($options) {
+	public function progress($options = array()) {
 		$style = isset($options['style']) ? $options['style'] : '';
 		$klass = isset($options['class']) ? $options['class'] : '';
 		if (isset($options["striped"]) && $options["striped"]) {
@@ -101,8 +101,23 @@ class BootstrapInfo {
 		if (isset($options["active"]) && $options["active"]) {
 			$klass .= " active";
 		}
-		debug($klass);
 		return $this->stylesFor('progress', $style, $klass);
+	}
+
+	public function button($options = array()) {
+		$klass = isset($options['class']) ? $options['class'] : '';
+		$style = isset($options["style"]) ? $options["style"] : "";
+		$size = isset($options["size"]) ? $options["size"] : "";
+		$disabled = false;
+		if (isset($options["disabled"])) {
+			$disabled = (bool)$options["disabled"];
+		}
+		if ($disabled) { $klass .= " disabled"; }
+		unset($options["style"]);
+		unset($options["size"]);
+		unset($options["disabled"]);
+		$options['class'] = $this->sizesFor('button', $size, $this->stylesFor('button', $style, $klass));
+		return $options;
 	}
 
 	public function _filter($str = '') {

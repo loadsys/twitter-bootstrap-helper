@@ -443,7 +443,7 @@ class BootstrapHtmlHelperTest extends CakeTestCase {
 			"/home",
 			array("style" => "info", "size" => "mini")
 		);
-		$expected["a"]["class"] = 'preg:/btn btn-info btn-mini/';
+		$expected["a"]["class"] = 'preg:/btn btn-mini btn-info/';
 		$this->assertTags($result, $expected);
 
 		$result = $this->BootstrapHtml->button(
@@ -451,7 +451,7 @@ class BootstrapHtmlHelperTest extends CakeTestCase {
 			"/home",
 			array("style" => "info", "size" => "small", "class" => "some-class")
 		);
-		$expected["a"]["class"] = 'preg:/some-class btn btn-info btn-small/';
+		$expected["a"]["class"] = 'preg:/btn btn-small btn-info some-class/';
 		$this->assertTags($result, $expected);
 
 		$result = $this->BootstrapHtml->button(
@@ -459,7 +459,7 @@ class BootstrapHtmlHelperTest extends CakeTestCase {
 			"/home",
 			array("style" => "info", "size" => "small", "disabled" => true)
 		);
-		$expected["a"]["class"] = 'preg:/btn btn-info btn-small disabled/';
+		$expected["a"]["class"] = 'preg:/btn btn-small btn-info disabled/';
 		$this->assertTags($result, $expected);
 	}
 

@@ -1,10 +1,16 @@
 <?php
 
 App::uses("HtmlHelper", "View/Helper");
+require_once(dirname(__FILE__) . '/../../Lib/BootstrapInfo.php');
 
 class BootstrapHtmlHelper extends HtmlHelper {
 
 	public $helpers = array("Html");
+
+	public function __construct(View $View, $options = array()) {
+		parent::__construct($View, $options);
+		$this->BootstrapInfo = new BootstrapInfo();
+	}
 
 	/**
 	 * Builds a button dropdown menu with the $value as the button text and the
@@ -16,7 +22,7 @@ class BootstrapHtmlHelper extends HtmlHelper {
 	public function buttonDropdown($value = "", $options = array()) {
 		$_links = isset($options["links"]) ? $options["links"] : array();
 		$split = isset($options["split"]) ? (bool)$options["split"] : false;
-		$options = $this->_buttonOptions($options);
+		$options = $this->BootstrapInfo->button($options);
 		$links = "";
 		foreach ($_links as $link) {
 			if (is_array($link)) {
@@ -95,47 +101,8 @@ class BootstrapHtmlHelper extends HtmlHelper {
 	 * @return string
 	 */
 	public function button($title, $url, $opt = array(), $confirm = false) {
-		$opt = $this->_buttonOptions($opt);
+		$opt = $this->BootstrapInfo->button($opt);
 		return $this->link($title, $url, $opt, $confirm);
-	}
-
-	/**
-	 * Takes the array of options from $this->button or $this->button_link
-	 * and returns the modified array with the bootstrap classes
-	 *
-	 * @param mixed $options
-	 * @access protected
-	 * @return string
-	 */
-	protected function _buttonOptions($options) {
-		$valid_styles = array(
-			"danger", "info", "primary",
-			"warning", "success", "inverse"
-		);
-		$valid_sizes = array("mini", "small", "large");
-		$style = isset($options["style"]) ? $options["style"] : "";
-		$size = isset($options["size"]) ? $options["size"] : "";
-		$disabled = false;
-		if (isset($options["disabled"])) {
-			$disabled = (bool)$options["disabled"];
-		}
-		$class = "btn";
-		if (!empty($style) && in_array($style, $valid_styles)) {
-			$class .= " btn-{$style}";
-		}
-		if (!empty($size) && in_array($size, $valid_sizes)) {
-			$class .= " btn-{$size}";
-		}
-		if ($disabled) { $class .= " disabled"; }
-		unset($options["style"]);
-		unset($options["size"]);
-		unset($options["disabled"]);
-		if (isset($options["class"])) {
-			$options["class"] = $options["class"] . " " . $class;
-		} else {
-			$options["class"] = $class;
-		}
-		return $options;
 	}
 
 	/**
