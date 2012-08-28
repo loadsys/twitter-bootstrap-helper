@@ -78,7 +78,7 @@ class BootstrapInfoTest extends CakeTestCase {
 		} catch (Exception $e) {
 			$this->assertEqual($e->getMessage(), "Must give an icon to render");
 		}
-		$expected = 'icon icon-glass';
+		$expected = 'icon-glass';
 		$result = $this->BootstrapInfo->stylesFor('icon', 'glass');
 		$this->assertEqual($result, $expected);
 	}
@@ -101,6 +101,24 @@ class BootstrapInfoTest extends CakeTestCase {
 		$this->assertEqual($result, $expected);
 		$expected = 'label label-inverse';
 		$result = $this->BootstrapInfo->stylesFor('label', 'inverse');
+		$this->assertEqual($result, $expected);
+	}
+
+	public function testStylesForPagination() {
+		$expected = 'pagination';
+		$result = $this->BootstrapInfo->stylesFor('pagination');
+		$this->assertEqual($result, $expected);
+		$expected = 'pagination pagination-centered';
+		$result = $this->BootstrapInfo->stylesFor('pagination', 'centered');
+		$this->assertEqual($result, $expected);
+		$expected = 'pagination pagination-right';
+		$result = $this->BootstrapInfo->stylesFor('pagination', 'right');
+		$this->assertEqual($result, $expected);
+	}
+
+	public function testStylesForPager() {
+		$expected = 'pager';
+		$result = $this->BootstrapInfo->stylesFor('pager');
 		$this->assertEqual($result, $expected);
 	}
 

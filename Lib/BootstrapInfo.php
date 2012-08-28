@@ -13,7 +13,10 @@ class BootstrapInfo {
 		"info"      => "info",
 		"inverse"   => "inverse",
 		"flash"     => "warning",
-		"auth"      => "error"
+		"auth"      => "error",
+		"centered"  => "centered",
+		"center"    => "centered",
+		"right"     => "right"
 	);
 
 	public $sizeMap = array(
@@ -41,7 +44,6 @@ class BootstrapInfo {
 				$prefix = 'btn-';
 				break;
 			case 'icon':
-				$main = '';
 				$prefix = 'icon-';
 				if (!$style) {
 					throw new Exception("Must give an icon to render");
@@ -53,12 +55,17 @@ class BootstrapInfo {
 				$main = 'label';
 				$prefix = 'label-';
 				break;
+			case 'pager':
+				$main = 'pager';
+				break;
+			case 'pagination':
+				$main = 'pagination';
+				$prefix = 'pagination-';
+				break;
 			case 'progress':
 				$main = 'progress';
 				$prefix = 'progress-';
 				break;
-			default:
-				$prefix = '';
 		}
 
 		if ($style && isset($this->styleMap[$style])) {
