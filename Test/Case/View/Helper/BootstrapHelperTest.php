@@ -370,17 +370,6 @@ class BootstrapHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 	}
 
-	public function testInvalidFlash() {
-		$expected = array(
-			'div' => array('class' => 'alert alert-warning invalid'),
-			'Flash content',
-			'/div'
-		);
-
-		$result = $this->Bootstrap->flash("invalid");
-		$this->assertTags($result, $expected);
-	}
-
 	public function testFlashes() {
 		$keys = array("info", "success", "error", "warning", "warning");
 		$tmpl = '<div class="alert alert-%s">Flash content</div>';

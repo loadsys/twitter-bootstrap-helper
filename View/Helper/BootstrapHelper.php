@@ -1,8 +1,17 @@
 <?php
 
+require_once(dirname(__FILE__) . '/../../Lib/BootstrapInfo.php');
+
 class BootstrapHelper extends AppHelper {
 
+	public $bootstrapInfo = null;
+
 	public $helpers = array("Html", "Session");
+
+	public function __construct(View $View, $settings = array()) {
+		parent::__construct($View, $settings);
+		$this->BootstrapInfo = new BootstrapInfo();
+	}
 
 	/**
 	 * Displays an h1 tag wrapped in a div with the page-header class
@@ -30,16 +39,8 @@ class BootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function label($message = "", $style = "", $options = array()) {
-		$class = "label";
-		$valid = array("success", "important", "warning", "info", "inverse");
-		if (!empty($style) && in_array($style, $valid)) {
-			$class .= " label-{$style}";
-		}
-		if (isset($options["class"]) && !empty($options["class"])) {
-			$options["class"] = $class . " " . $options["class"];
-		} else {
-			$options["class"] = $class;
-		}
+		$klass = isset($options['class']) ? $options['class'] : '';
+		$options['class'] = $this->BootstrapInfo->stylesFor('label', $style, $klass);
 		return $this->Html->tag("span", $message, $options);
 	}
 
@@ -54,16 +55,8 @@ class BootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function badge($num = 0, $style = "", $options = array()) {
-		$class = "badge";
-		$valid = array("success", "warning", "important", "info", "inverse");
-		if (!empty($style) && in_array($style, $valid)) {
-			$class .= " badge-{$style}";
-		}
-		if (isset($options["class"]) && !empty($options["class"])) {
-			$options["class"] = $class . " " . $options["class"];
-		} else {
-			$options["class"] = $class;
-		}
+		$klass = isset($options['class']) ? $options['class'] : '';
+		$options['class'] = $this->BootstrapInfo->stylesFor('badge', $style, $klass);
 		return $this->Html->tag("span", $num, $options);
 	}
 
@@ -75,18 +68,8 @@ class BootstrapHelper extends AppHelper {
 	 * @return string
 	 */
 	public function progress($options = array()) {
-		$class = "progress";
 		$width = 0;
-		$valid = array("info", "success", "warning", "danger");
-		if (isset($options["style"]) && in_array($options["style"], $valid)) {
-			$class .= " progress-{$options["style"]}";
-		}
-		if (isset($options["striped"]) && $options["striped"]) {
-			$class .= " progress-striped";
-		}
-		if (isset($options["active"]) && $options["active"]) {
-			$class .= " active";
-		}
+		$klass = $this->BootstrapInfo->progress($options);
 		if (
 			isset($options["width"]) &&
 			!empty($options["width"]) &&
@@ -99,7 +82,7 @@ class BootstrapHelper extends AppHelper {
 			"",
 			array("class" => "bar", "style" => "width: {$width}%;")
 		);
-		return $this->Html->tag("div", $bar, array("class" => $class));
+		return $this->Html->tag("div", $bar, array("class" => $klass));
 	}
 
 	/**
@@ -111,12 +94,12 @@ class BootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function icon($name, $color = "black") {
-		$class = "icon-{$name}";
+	public function icon($name, $color = null) {
 		if ($color === "white") {
-			$class = "{$class} icon-white";
+			$color = "icon-{$color}";
 		}
-		return $this->Html->tag("i", false, array("class" => $class));
+		$klass = $this->BootstrapInfo->stylesFor('icon', $name, $color);
+		return $this->Html->tag("i", false, array("class" => $klass));
 	}
 
 	/**
@@ -132,23 +115,13 @@ class BootstrapHelper extends AppHelper {
 		if (isset($options['closable']) && $options['closable']) {
 			$close = '<a class="close" data-dismiss="alert">&times;</a>';
 		}
-		$style = isset($options["style"]) ? $options["style"] : "warning";
-		$types = array("info", "success", "error", "warning");
-		if ($style === "flash") {
-			$style = "warning";
-		}
-		if (strtolower($style) === "auth") {
-			$style = "error";
-		}
-		if (!in_array($style, array_merge($types, array("auth", "flash")))) {
-			$class = "alert alert-warning {$style}";
-		} else {
-			$class = "alert alert-{$style}";
-		}
+		$style = isset($options["style"]) ? $options["style"] : 'warning';
+		$klass = isset($options["class"]) ? $options["class"] : '';
+		$klass = $this->BootstrapInfo->stylesFor('alert', $style, $klass);
 		return $this->Html->tag(
 			'div',
 			"{$close}{$content}",
-			array("class" => $class)
+			array("class" => $klass)
 		);
 	}
 
