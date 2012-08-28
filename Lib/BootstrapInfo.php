@@ -112,7 +112,7 @@ class BootstrapInfo {
 	}
 
 	public function button($options = array()) {
-		$klass = isset($options['class']) ? $options['class'] : '';
+		$klass = isset($options['class']) ? $options['class'] : "";
 		$style = isset($options["style"]) ? $options["style"] : "";
 		$size = isset($options["size"]) ? $options["size"] : "";
 		$disabled = false;

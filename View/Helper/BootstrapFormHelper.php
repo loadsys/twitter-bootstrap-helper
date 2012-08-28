@@ -81,4 +81,72 @@ class BootstrapFormHelper extends FormHelper {
 		return parent::submit($caption, $options);
 	}
 
+	public function checkbox($fieldName, $options = array()) {
+		return parent::checkbox($fieldName, $options);
+	}
+
+	public function dateTime($fieldName, $dateFormat = 'DMY', $timeFormat = '12', $attributes = array()) {
+		return parent::dateTime($fieldName, $dateFormat, $timeFormat, $attributes);
+	}
+
+	public function day($fieldName = null, $attributes = array()) {
+		return parent::day($fieldName, $attributes);
+	}
+
+	public function end($options = null) {
+		return parent::end($options);
+	}
+
+	public function error($field, $text = null, $options = array()) {
+		return parent::error($field, $text, $options);
+	}
+
+	public function file($fieldName, $options = array()) {
+		return parent::file($fieldName, $options);
+	}
+
+	public function hidden($fieldName, $options = array()) {
+		return parent::hidden($fieldName, $options);
+	}
+
+	public function hour($fieldName, $format24Hours = false, $attributes = array()) {
+		return parent::hour($fieldName, $format24Hours, $attributes);
+	}
+
+	public function inputs($fields = null, $blacklist = null) {
+		return parent::inputs($fields, $blacklist);
+	}
+
+	public function isFieldError($field) {
+		return parent::isFieldError($field);
+	}
+
+	public function label($fieldName = null, $text = null, $options = array()) {
+		return parent::label($fieldName, $text, $options);
+	}
+
+	public function meridan($fieldName, $attributes = array()) {
+		return parent::meridan($fieldName, $attributes);
+	}
+
+	public function minute($fieldName, $attributes = array()) {
+		return parent::minute($fieldName, $attributes);
+	}
+
+	public function month($fieldName, $attributes = array()) {
+		return parent::month($fieldName, $attributes);
+	}
+
+	public function radio($fieldName, $options = array(), $attributes = array()) {
+		return parent::radio($fieldName, $options, $attributes);
+	}
+
+	public function secure($fields = array()) {
+		return parent::secure($fields);
+	}
+
+	public function select($fieldName, $options = array()) {
+		return parent::select($fieldName, $options);
+	}
+
 }
