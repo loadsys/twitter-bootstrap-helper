@@ -67,20 +67,21 @@ class BootstrapHelper extends AppHelper {
 	 */
 	public function progress($options = array()) {
 		$width = 0;
-		$klass = $this->BootstrapInfo->progress($options);
+		$options = $this->BootstrapInfo->progress($options);
 		if (
 			isset($options["width"]) &&
 			!empty($options["width"]) &&
 			is_int($options["width"])
 		) {
 			$width = $options["width"];
+			unset($options['width']);
 		}
 		$bar = $this->Html->tag(
 			"div",
 			"",
 			array("class" => "bar", "style" => "width: {$width}%;")
 		);
-		return $this->Html->tag("div", $bar, array("class" => $klass));
+		return $this->Html->tag("div", $bar, $options);
 	}
 
 	/**

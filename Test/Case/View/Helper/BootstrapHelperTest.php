@@ -270,6 +270,7 @@ class BootstrapHelperTest extends CakeTestCase {
 			"style" => "info",
 			"striped" => true
 		));
+		debug($progress);
 		$this->assertTags($progress, $expected);
 
 		$expected = array(

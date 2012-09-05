@@ -72,6 +72,24 @@ class BootstrapInfoTest extends CakeTestCase {
 		$this->assertEqual($result, $expected);
 	}
 
+	public function testStylesForForm() {
+		$expected = '';
+		$result = $this->BootstrapInfo->stylesFor('form');
+		$this->assertEquals($expected, $result);
+		$expected = 'form-search';
+		$result = $this->BootstrapInfo->stylesFor('form', 'search');
+		$this->assertEquals($expected, $result);
+		$expected = 'form-inline';
+		$result = $this->BootstrapInfo->stylesFor('form', 'inline');
+		$this->assertEquals($expected, $result);
+		$expected = 'form-horizontal';
+		$result = $this->BootstrapInfo->stylesFor('form', 'horizontal');
+		$this->assertEquals($expected, $result);
+		$expected = 'form-vertical';
+		$result = $this->BootstrapInfo->stylesFor('form', 'vertical');
+		$this->assertEquals($expected, $result);
+	}
+
 	public function testStylesForIcon() {
 		try {
 			$result = $this->BootstrapInfo->stylesFor('icon');
@@ -180,7 +198,7 @@ class BootstrapInfoTest extends CakeTestCase {
 	}
 
 	public function testFilter() {
-		$start = "btn btn-success btn btn-small";
+		$start = "btn btn-success  btn btn-small";
 		$expected = "btn btn-success btn-small";
 		$this->assertEqual($this->BootstrapInfo->_filter($start), $expected);
 	}
