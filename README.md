@@ -48,7 +48,7 @@ The method will handle errors and update the class on the div surrounding the in
 
 ### TwitterBootstrapHelper::basic_input(mixed $field, array $options)
 
-While the `input()` method outputs the more verbose markup; the `basic_input()` method just outputs the minimum markup (the labal and input tags).
+While the `input()` method outputs the more verbose markup; the `basic_input()` method just outputs the minimum markup (the label and input tags).
 
 	echo $this->TwitterBootstrap->basic_input("field_name", array(
 		"label" => "Custom label text"
