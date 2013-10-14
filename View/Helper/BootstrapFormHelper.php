@@ -344,10 +344,11 @@ class BootstrapFormHelper extends FormHelper {
 	 * markup for twitter bootstrap styles
 	 *
 	 * @param array $options
+	 * @param array $attributes
 	 * @access public
 	 * @return string
 	 */
-	public function radio($field, $options = array()) {
+	public function radio($field, $options = array(), $attributes = array()) {
 		if (is_array($field)) {
 			$options = $field;
 		} else {
@@ -364,7 +365,7 @@ class BootstrapFormHelper extends FormHelper {
 			$input = parent::radio(
 				$options["field"],
 				array($key => $val),
-				array("label" => false, 'hiddenField' => $hiddenField)
+				$attributes + array("label" => false, 'hiddenField' => $hiddenField)
 			);
 			$id = array();
 			preg_match_all("/id=\"[a-zA-Z0-9_-]*\"/", $input, $id);
