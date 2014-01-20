@@ -35,7 +35,7 @@ class TestBootstrapHelper extends BootstrapHelper {
 	/**
 	 * Overwriting method to return a static string.
 	 */
-	public function _flash_content($key) {
+	public function _flash_content($key = 'flash') {
 		return "Flash content";
 	}
 }
